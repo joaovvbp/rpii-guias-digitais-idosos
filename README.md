@@ -16,9 +16,25 @@ IA entra como assistente na redacao do guia a partir de uma biblioteca de tarefa
 
 ## Backlog do projeto
 
-Entrega transversal da disciplina. O quadro de projeto associado a este repositorio tem um campo chamado "Andamento" com tres opcoes, Backlog, Em andamento e Concluido, e vai sendo atualizado ao longo do semestre conforme o ciclo de Sprints (PBL, Lean Startup e Scrum/Kanban).
+Entrega transversal da disciplina. O backlog fica no projeto do GitHub vinculado a este repositorio, em formato de quadro Kanban, e vai sendo atualizado ao longo do semestre conforme o ciclo de Sprints (PBL, Lean Startup e Scrum/Kanban).
 
-Quadro: https://github.com/users/joaovvbp/projects/5
+**Quadro Kanban: [RPII, Backlog do Projeto](https://github.com/users/joaovvbp/projects/5/views/1)**
+
+O link abre direto no quadro, sem precisar de login. Outro caminho para chegar nele:
+
+1. Abrir a aba [Projects](https://github.com/joaovvbp/rpii-guias-digitais-idosos/projects) no topo deste repositorio.
+2. Clicar em "RPII, Backlog do Projeto".
+3. Escolher a aba "Kanban", que e a primeira.
+
+Como ler o quadro:
+
+| Coluna | Significado |
+| --- | --- |
+| Planned | Backlog, o que ainda nao comecou |
+| In progress | Em andamento |
+| Done | Concluido |
+
+Cada cartao e uma [issue](https://github.com/joaovvbp/rpii-guias-digitais-idosos/issues) deste repositorio e mostra o marco a que pertence, a estimativa em pontos e a area do produto (Idoso, Cuidador, Biblioteca ou Infra). Os [marcos](https://github.com/joaovvbp/rpii-guias-digitais-idosos/milestones) agrupam as issues por etapa do MVP. A aba [Tabela](https://github.com/users/joaovvbp/projects/5/views/2) do mesmo projeto mostra os mesmos itens em lista.
 
 ## Por que escolhi o GitHub em vez de Trello, Miro ou Notion
 
