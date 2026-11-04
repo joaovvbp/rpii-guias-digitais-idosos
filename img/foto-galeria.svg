@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI,Roboto,Arial,sans-serif"><rect width="400" height="300" fill="#ece5dd"/>
+<rect x="20" y="40" width="360" height="230" rx="18" fill="#fff"/>
+<circle cx="80" cy="110" r="30" fill="#5f66cd"/><rect x="66" y="98" width="28" height="24" rx="3" fill="#fff"/>
+<text x="80" y="164" font-size="17" fill="#1a1a1a" text-anchor="middle">Documento</text>
+<circle cx="200" cy="110" r="30" fill="#d3396d"/><circle cx="200" cy="110" r="10" fill="#fff"/>
+<text x="200" y="164" font-size="17" fill="#1a1a1a" text-anchor="middle">Câmera</text>
+<circle cx="320" cy="110" r="30" fill="#bf59cf"/><rect x="306" y="98" width="28" height="24" rx="3" fill="#fff"/><path d="M306 122 l10 -10 l8 8 l4 -4 l6 6 z" fill="#bf59cf"/>
+<text x="320" y="164" font-size="17" fill="#1a1a1a" text-anchor="middle" font-weight="700">Galeria</text>
+<circle cx="80" cy="210" r="22" fill="#e9edef"/><circle cx="200" cy="210" r="22" fill="#e9edef"/><circle cx="320" cy="210" r="22" fill="#e9edef"/></svg>

@@ -1,0 +1,69 @@
+[
+ {
+  "id": "golpe",
+  "titulo": "Isto é golpe?",
+  "categoria": "Dinheiro com segurança",
+  "palavras": [
+   "golpe",
+   "mensagem",
+   "encomenda",
+   "taxa",
+   "link",
+   "suspeit",
+   "falsa",
+   "fraude",
+   "troquei de numero",
+   "clonad"
+  ]
+ },
+ {
+  "id": "pix",
+  "titulo": "Fazer um Pix com segurança",
+  "categoria": "Dinheiro com segurança",
+  "palavras": [
+   "pix",
+   "transferir",
+   "transferencia",
+   "pagar",
+   "dinheiro",
+   "boleto"
+  ]
+ },
+ {
+  "id": "video",
+  "titulo": "Fazer chamada de vídeo no WhatsApp",
+  "categoria": "Comunicação",
+  "palavras": [
+   "video",
+   "chamada",
+   "ligar",
+   "videochamada",
+   "ver a pessoa"
+  ]
+ },
+ {
+  "id": "foto",
+  "titulo": "Mandar uma foto pelo WhatsApp",
+  "categoria": "Comunicação",
+  "palavras": [
+   "foto",
+   "imagem",
+   "enviar foto",
+   "mandar foto",
+   "receita"
+  ]
+ },
+ {
+  "id": "letra",
+  "titulo": "Aumentar a letra do celular",
+  "categoria": "Cotidiano do aparelho",
+  "palavras": [
+   "letra",
+   "fonte",
+   "tamanho",
+   "enxergar",
+   "ler melhor",
+   "maior"
+  ]
+ }
+]

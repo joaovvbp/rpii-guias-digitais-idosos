@@ -1,0 +1,47 @@
+{
+ "id": "letra",
+ "titulo": "Aumentar a letra do celular",
+ "categoria": "Cotidiano do aparelho",
+ "resumo": "Deixar a letra de todo o celular maior.",
+ "revisado": "rascunho de 04/11/2026, falta testar em Android e iPhone",
+ "passos": [
+  {
+   "frase": "Abra as Configurações, o ícone de engrenagem. No iPhone, o nome é Ajustes.",
+   "emoji": "⚙️"
+  },
+  {
+   "frase": "Toque na lupa, no alto da tela, para procurar.",
+   "imagem": "img/letra-busca.svg",
+   "descricao": "Tela de configurações, com a lupa marcada",
+   "marca": {
+    "x": 82,
+    "y": 8,
+    "l": 13,
+    "a": 17
+   }
+  },
+  {
+   "frase": "Escreva a palavra fonte. No iPhone, escreva tamanho do texto.",
+   "emoji": "🔎"
+  },
+  {
+   "frase": "Toque em Tamanho da fonte.",
+   "emoji": "👆"
+  },
+  {
+   "frase": "Arraste a bolinha azul para a direita até a letra ficar boa de ler.",
+   "imagem": "img/letra-barra.svg",
+   "descricao": "Barra de tamanho da fonte, marcada",
+   "marca": {
+    "x": 14,
+    "y": 71,
+    "l": 70,
+    "a": 14
+   }
+  },
+  {
+   "frase": "Pronto. Pode voltar. A letra já fica maior em todo o celular.",
+   "emoji": "✅"
+  }
+ ]
+}

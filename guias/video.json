@@ -1,0 +1,43 @@
+{
+ "id": "video",
+ "titulo": "Fazer chamada de vídeo no WhatsApp",
+ "categoria": "Comunicação",
+ "resumo": "Ligar com vídeo para alguém pelo WhatsApp.",
+ "revisado": "rascunho de 04/11/2026, falta testar no aplicativo",
+ "passos": [
+  {
+   "frase": "Abra o WhatsApp, o ícone verde com um telefone branco.",
+   "emoji": "📱"
+  },
+  {
+   "frase": "Toque na conversa da pessoa com quem você quer falar.",
+   "emoji": "👆"
+  },
+  {
+   "frase": "No alto da tela, toque no desenho da câmera.",
+   "imagem": "img/video-conversa.svg",
+   "descricao": "Conversa aberta, com o desenho da câmera no alto marcado",
+   "marca": {
+    "x": 73,
+    "y": 1,
+    "l": 15,
+    "a": 14
+   }
+  },
+  {
+   "frase": "Espere a pessoa atender. Segure o celular de pé, na frente do rosto.",
+   "emoji": "🙂"
+  },
+  {
+   "frase": "Para desligar, toque no botão vermelho.",
+   "imagem": "img/video-chamada.svg",
+   "descricao": "Tela da chamada, com o botão vermelho de desligar marcado",
+   "marca": {
+    "x": 41,
+    "y": 71,
+    "l": 18,
+    "a": 24
+   }
+  }
+ ]
+}

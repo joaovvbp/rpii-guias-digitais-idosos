@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI,Roboto,Arial,sans-serif"><rect width="400" height="300" fill="#ece5dd"/><rect width="400" height="56" fill="#0d6b4f"/>
+<text x="18" y="36" font-size="22" fill="#fff">‹</text>
+<circle cx="56" cy="28" r="16" fill="#cfd8dc"/>
+<text x="82" y="35" font-size="19" fill="#fff" font-weight="700">+55 11 9XXXX-0000</text>
+<rect x="16" y="76" width="330" height="150" rx="12" fill="#fff"/>
+<text x="32" y="108" font-size="19" fill="#1a1a1a">Sua encomenda está retida.</text>
+<text x="32" y="136" font-size="19" fill="#1a1a1a">Pague a taxa <tspan font-weight="700">HOJE</tspan> para</text>
+<text x="32" y="164" font-size="19" fill="#1a1a1a">não ser devolvida:</text>
+<text x="32" y="198" font-size="19" fill="#1a56c4" text-decoration="underline">correios-taxa.site/pagar</text>
+<text x="300" y="218" font-size="13" fill="#777">10:42</text></svg>

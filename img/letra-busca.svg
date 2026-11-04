@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI,Roboto,Arial,sans-serif"><rect width="400" height="300" fill="#f5f5f5"/>
+<text x="24" y="58" font-size="28" fill="#1a1a1a" font-weight="700">Configurações</text>
+<circle cx="350" cy="46" r="14" fill="none" stroke="#1a1a1a" stroke-width="3.5"/><path d="M360 56 l12 12" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+<rect x="16" y="90" width="368" height="190" rx="16" fill="#fff"/>
+<text x="40" y="132" font-size="19" fill="#1a1a1a">Conexões</text>
+<text x="40" y="180" font-size="19" fill="#1a1a1a">Sons e vibração</text>
+<text x="40" y="228" font-size="19" fill="#1a1a1a">Tela</text>
+<text x="40" y="270" font-size="19" fill="#1a1a1a">Acessibilidade</text></svg>

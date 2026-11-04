@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI,Roboto,Arial,sans-serif"><rect width="400" height="300" fill="#ece5dd"/><rect width="400" height="56" fill="#0d6b4f"/>
+<text x="18" y="36" font-size="22" fill="#fff">‹</text>
+<circle cx="56" cy="28" r="16" fill="#cfd8dc"/>
+<text x="82" y="35" font-size="19" fill="#fff" font-weight="700">+55 21 9XXXX-1111</text>
+<rect x="16" y="76" width="330" height="96" rx="12" fill="#fff"/>
+<text x="32" y="108" font-size="19" fill="#1a1a1a">Oi mãe, <tspan font-weight="700">troquei de número</tspan>.</text>
+<text x="32" y="140" font-size="19" fill="#1a1a1a">Salva esse aí.</text>
+<rect x="16" y="184" width="330" height="96" rx="12" fill="#fff"/>
+<text x="32" y="216" font-size="19" fill="#1a1a1a">Me faz um Pix urgente?</text>
+<text x="32" y="246" font-size="19" fill="#1a1a1a">Amanhã te devolvo.</text></svg>
