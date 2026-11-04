@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guias passo a passo para quem você ajuda</title>
+<meta name="description" content="Monte um guia ilustrado e com áudio e mande pelo WhatsApp para a pessoa idosa que você ajuda.">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+<main class="pagina">
+
+  <!-- 1. Pedido (#7) -->
+  <section id="etapa-pedido">
+    <div class="barra">
+      <h1>Novo guia</h1>
+      <p>Explique uma vez. A pessoa segue no celular, no tempo dela, quantas vezes precisar.</p>
+    </div>
+    <div class="miolo">
+      <label class="rotulo" for="para">Para quem é o guia?</label>
+      <input type="text" id="para" placeholder="Ex.: Mãe, Vô Zé" autocomplete="off" maxlength="40">
+
+      <label class="rotulo" for="pedido">O que você precisa explicar?</label>
+      <textarea id="pedido" placeholder="Ex.: minha mãe recebeu uma mensagem dizendo que a encomenda está retida e quero ensinar a reconhecer golpe"></textarea>
+
+      <p class="rotulo">Ou escolha um guia pronto</p>
+      <div class="chips" id="chips"></div>
+      <p class="erro escondido" id="erro-biblioteca"></p>
+    </div>
+    <div class="rodape">
+      <button class="primario" id="montar">Montar guia</button>
+    </div>
+  </section>
+
+  <!-- 2. Conferência e edição (#9) e envio (#10) -->
+  <section id="etapa-conferir" class="escondido">
+    <div class="barra">
+      <h1>Conferir antes de enviar</h1>
+      <p id="origem"></p>
+    </div>
+    <div class="miolo">
+      <p class="aviso escondido" id="aviso-novo">Ainda não temos um guia pronto para esse pedido. Comecei um rascunho em branco: escreva um passo por vez, com frases curtas, do jeito que você explicaria pessoalmente.</p>
+
+      <label class="rotulo" for="titulo">Título do guia</label>
+      <input type="text" id="titulo" maxlength="80">
+
+      <p class="rotulo">Passos</p>
+      <div id="passos" style="display:flex;flex-direction:column;gap:10px"></div>
+      <button class="secundario" id="mais-passo">+ Acrescentar passo</button>
+      <button class="secundario" id="ouvir-tudo">▶ Ouvir como vai ficar</button>
+
+      <h2>Quem a pessoa chama se travar</h2>
+      <p class="dica">Aparece no botão "Não consegui. Pedir ajuda". Fica só no link, não guardamos em lugar nenhum.</p>
+      <label class="rotulo" for="seu-nome">Seu nome</label>
+      <input type="text" id="seu-nome" placeholder="Ex.: Marina" maxlength="40" autocomplete="given-name">
+      <label class="rotulo" for="seu-tel">Seu WhatsApp, com DDD</label>
+      <input type="tel" id="seu-tel" placeholder="Ex.: 11 91234-5678" autocomplete="tel">
+
+      <label style="display:flex;gap:10px;align-items:flex-start;font-size:17px">
+        <input type="checkbox" id="conferi" style="width:26px;height:26px;margin-top:2px">
+        Conferi os passos e eles estão certos para o celular da pessoa.
+      </label>
+      <p class="erro escondido" id="erro-envio"></p>
+    </div>
+    <div class="rodape">
+      <a class="botao whats" id="enviar" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+      <div class="navegacao" style="grid-template-columns:1fr 1fr">
+        <button class="secundario" id="testar">Testar o guia</button>
+        <button class="secundario" id="copiar">Copiar link</button>
+      </div>
+      <button class="secundario" id="recomecar">◀ Começar outro guia</button>
+    </div>
+  </section>
+</main>
+
+<script src="js/formato.js"></script>
+<script src="js/fala.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var EMOJIS = ['', '✋', '👀', '👆', '📱', '💬', '📷', '🖼️', '📞', '🙂', '🔒', '⚠️', '✅', '❌', '🔎', '⚙️', '💰'];
+  var lista = [], escolhido = null, original = '', guia = null;
+
+  // Lembra o nome e o telefone do cuidador neste aparelho, por conveniência.
+  try {
+    var salvo = JSON.parse(localStorage.getItem('guias-cuidador') || '{}');
+    $('seu-nome').value = salvo.nome || '';
+    $('seu-tel').value = salvo.tel || '';
+  } catch (e) { /* sem armazenamento */ }
+
+  Guias.biblioteca().then(function (l) {
+    lista = l;
+    l.forEach(function (g) {
+      var b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = g.titulo;
+      b.addEventListener('click', function () {
+        escolhido = escolhido === g ? null : g;
+        document.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('escolhido', c === b && escolhido); });
+      });
+      $('chips').appendChild(b);
+    });
+  }).catch(function (e) {
+    $('erro-biblioteca').textContent = 'Não consegui carregar os guias prontos (' + e.message + ').';
+    $('erro-biblioteca').classList.remove('escondido');
+  });
+
+  $('montar').addEventListener('click', function () {
+    var alvo = escolhido || Guias.combina($('pedido').value, lista);
+    if (alvo) {
+      Guias.daBiblioteca(alvo.id).then(function (g) {
+        abreConferencia(g, 'Guia pronto da biblioteca. Você pode ajustar as frases.');
+      }).catch(function (e) { alert(e.message); });
+    } else {
+      var t = $('pedido').value.trim();
+      abreConferencia({
+        titulo: t ? t.charAt(0).toUpperCase() + t.slice(1, 60) : 'Meu guia',
+        passos: [{ frase: '', emoji: '📱' }, { frase: '' }, { frase: '', emoji: '✅' }]
+      }, 'Rascunho novo', true);
+    }
+  });
+
+  function abreConferencia(g, origem, novo) {
+    guia = JSON.parse(JSON.stringify(g));
+    original = novo ? '' : JSON.stringify({ titulo: g.titulo, passos: g.passos });
+    $('origem').textContent = origem;
+    $('aviso-novo').classList.toggle('escondido', !novo);
+    $('titulo').value = guia.titulo;
+    desenhaPassos();
+    $('etapa-pedido').classList.add('escondido');
+    $('etapa-conferir').classList.remove('escondido');
+    window.scrollTo(0, 0);
+    atualizaEnvio();
+  }
+
+  function desenhaPassos() {
+    var c = $('passos');
+    c.innerHTML = '';
+    guia.passos.forEach(function (p, i) {
+      var d = document.createElement('div');
+      d.className = 'passo-editavel';
+      var topo = document.createElement('div');
+      topo.className = 'topo';
+      topo.innerHTML = '<span class="num">' + (i + 1) + '</span>';
+      var rot = document.createElement('span');
+      rot.className = 'dica';
+      rot.textContent = p.imagem ? 'com imagem da tela' : 'figura:';
+      topo.appendChild(rot);
+      if (!p.imagem) {
+        var sel = document.createElement('select');
+        sel.className = 'emoji-escolha';
+        sel.setAttribute('aria-label', 'Figura do passo ' + (i + 1));
+        EMOJIS.forEach(function (e) {
+          var o = document.createElement('option');
+          o.value = e; o.textContent = e || '(nenhuma)';
+          if ((p.emoji || '') === e) o.selected = true;
+          sel.appendChild(o);
+        });
+        sel.addEventListener('change', function () { if (sel.value) p.emoji = sel.value; else delete p.emoji; atualizaEnvio(); });
+        topo.appendChild(sel);
+      }
+      d.appendChild(topo);
+
+      var ta = document.createElement('textarea');
+      ta.value = p.frase;
+      ta.placeholder = 'Uma frase curta. Ex.: Toque no desenho da câmera, no alto da tela.';
+      ta.setAttribute('aria-label', 'Frase do passo ' + (i + 1));
+      ta.style.minHeight = '72px';
+      ta.addEventListener('input', function () {
+        p.frase = ta.value;
+        delete p.fala; // a fala segue a frase editada
+        atualizaEnvio();
+      });
+      d.appendChild(ta);
+
+      var acoes = document.createElement('div');
+      acoes.className = 'acoes';
+      [['▶ Ouvir', function () { Fala.falar(Guias.comContato(p.fala || p.frase, contato())); }],
+       ['↑', function () { if (i > 0) { troca(i, i - 1); } }],
+       ['↓', function () { if (i < guia.passos.length - 1) { troca(i, i + 1); } }],
+       ['Apagar', function () { if (guia.passos.length > 1) { guia.passos.splice(i, 1); desenhaPassos(); atualizaEnvio(); } }]
+      ].forEach(function (a) {
+        var b = document.createElement('button');
+        b.className = 'secundario pequeno';
+        b.textContent = a[0];
+        b.addEventListener('click', a[1]);
+        acoes.appendChild(b);
+      });
+      d.appendChild(acoes);
+      c.appendChild(d);
+    });
+    $('mais-passo').disabled = guia.passos.length >= Guias.LIMITE_PASSOS;
+  }
+
+  function troca(a, b) {
+    var t = guia.passos[a]; guia.passos[a] = guia.passos[b]; guia.passos[b] = t;
+    desenhaPassos(); atualizaEnvio();
+  }
+
+  $('mais-passo').addEventListener('click', function () {
+    guia.passos.push({ frase: '' });
+    desenhaPassos();
+    var tas = $('passos').querySelectorAll('textarea');
+    tas[tas.length - 1].focus();
+    atualizaEnvio();
+  });
+
+  $('ouvir-tudo').addEventListener('click', function () {
+    var c = contato(), i = 0;
+    (function proximo() {
+      if (i >= guia.passos.length) return;
+      var p = guia.passos[i++];
+      if (!p.frase.trim()) { proximo(); return; }
+      Fala.falar('Passo ' + i + '. ' + Guias.comContato(p.fala || p.frase, c), proximo);
+    })();
+  });
+
+  $('titulo').addEventListener('input', function () { guia.titulo = $('titulo').value; atualizaEnvio(); });
+  ['seu-nome', 'seu-tel'].forEach(function (id) {
+    $(id).addEventListener('input', function () {
+      try { localStorage.setItem('guias-cuidador', JSON.stringify({ nome: $('seu-nome').value, tel: $('seu-tel').value })); } catch (e) { /* nada */ }
+      atualizaEnvio();
+    });
+  });
+  $('conferi').addEventListener('change', atualizaEnvio);
+
+  function contato() {
+    var tel = Guias.soDigitos($('seu-tel').value);
+    if (tel && tel.length <= 11) tel = '55' + tel; // número brasileiro sem o código do país
+    return { nome: $('seu-nome').value.trim(), tel: tel.length >= 12 ? tel : '' };
+  }
+
+  function problema() {
+    if (!guia.titulo.trim()) return 'Dê um título ao guia.';
+    if (guia.passos.some(function (p) { return !p.frase.trim(); })) return 'Tem passo sem frase. Escreva ou apague.';
+    if (!$('conferi').checked) return 'Marque que conferiu os passos para poder enviar.';
+    return '';
+  }
+
+  function linkAtual() {
+    var editado = JSON.stringify({ titulo: guia.titulo, passos: guia.passos }) !== original;
+    return Guias.link(Guias.valida(guia), contato(), editado);
+  }
+
+  // Nada sai daqui sem a confirmação do cuidador (#9).
+  function atualizaEnvio() {
+    var p = problema();
+    $('erro-envio').textContent = p;
+    $('erro-envio').classList.toggle('escondido', !p);
+    var ok = !p;
+    $('enviar').classList.toggle('escondido', false);
+    $('enviar').style.opacity = ok ? '' : '.45';
+    $('enviar').setAttribute('aria-disabled', ok ? 'false' : 'true');
+    if (ok) {
+      var para = $('para').value.trim();
+      var msg = (para ? para + ', fiz' : 'Fiz') + ' um guia pra você: "' + guia.titulo.trim() +
+        '". É só tocar no link e seguir um passo de cada vez. Tem botão para ouvir.\n' + linkAtual();
+      $('enviar').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    } else {
+      $('enviar').removeAttribute('href');
+    }
+  }
+  $('enviar').addEventListener('click', function (e) { if (problema()) { e.preventDefault(); $('erro-envio').scrollIntoView({ block: 'center' }); } });
+
+  $('testar').addEventListener('click', function () {
+    var p = problema();
+    if (p && p.indexOf('Marque') !== 0) { $('erro-envio').scrollIntoView({ block: 'center' }); return; }
+    window.open(linkAtual(), '_blank', 'noopener');
+  });
+  $('copiar').addEventListener('click', function () {
+    var p = problema();
+    if (p) { $('erro-envio').scrollIntoView({ block: 'center' }); return; }
+    var l = linkAtual();
+    (navigator.clipboard ? navigator.clipboard.writeText(l) : Promise.reject()).then(function () {
+      $('copiar').textContent = 'Link copiado ✔';
+      setTimeout(function () { $('copiar').textContent = 'Copiar link'; }, 2000);
+    }).catch(function () { prompt('Copie o link:', l); });
+  });
+  $('recomecar').addEventListener('click', function () {
+    Fala.parar();
+    $('etapa-conferir').classList.add('escondido');
+    $('etapa-pedido').classList.remove('escondido');
+    $('conferi').checked = false;
+  });
+})();
+</script>
+</body>
+</html>
