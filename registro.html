@@ -30,6 +30,29 @@
     var s = Registro.todas().slice().reverse();
     saida.innerHTML = '';
     if (!s.length) { saida.innerHTML = '<p class="dica">Nenhum guia aberto neste aparelho ainda.</p>'; return; }
+
+    // Resumo por guia: aberturas, quantos chegaram ao fim, passo mais longe e uso do áudio.
+    var porGuia = {};
+    s.forEach(function (x) {
+      var r = porGuia[x.guia] || (porGuia[x.guia] = { aberturas: 0, fim: 0, ouvir: 0, ajuda: 0, passoMax: 0, passos: x.passos });
+      r.aberturas++;
+      (x.eventos || []).forEach(function (e) {
+        if (e.tipo === 'fim') r.fim++;
+        if (e.tipo === 'ouvir') r.ouvir++;
+        if (e.tipo === 'ajuda') r.ajuda++;
+        if (e.passo > r.passoMax) r.passoMax = e.passo;
+      });
+    });
+    var h2 = document.createElement('h2'); h2.textContent = 'Resumo por guia'; saida.appendChild(h2);
+    var tr = document.createElement('table');
+    tr.innerHTML = '<tr><th>Guia</th><th>Aberto</th><th>Até o fim</th><th>Passo mais longe</th><th>Ouviu</th><th>Ajuda</th></tr>';
+    Object.keys(porGuia).forEach(function (g) {
+      var r = porGuia[g], row = tr.insertRow();
+      [g, r.aberturas, r.fim, r.passoMax + ' de ' + r.passos, r.ouvir, r.ajuda].forEach(function (v) { row.insertCell().textContent = v; });
+    });
+    saida.appendChild(tr);
+    var h3 = document.createElement('h2'); h3.textContent = 'Cada sessão'; saida.appendChild(h3);
+
     s.forEach(function (x) {
       var ev = x.eventos || [];
       var fim = ev.find(function (e) { return e.tipo === 'fim'; });
