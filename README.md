@@ -14,6 +14,20 @@ Usuario primario, quem monta e compartilha o guia: o cuidador ou familiar.
 Usuario final, quem segue o guia: a pessoa idosa.
 IA entra como assistente na redacao do guia a partir de uma biblioteca de tarefas ja revisadas (Meu INSS, email com anexo, Pix seguro, imprimir arquivo, entre outras), nunca como gerador cego sem revisao.
 
+## O MVP
+
+Site estatico, sem servidor e sem login, publicado pelo GitHub Pages.
+
+- `index.html`: lado do cuidador. Descreve o pedido em texto livre ou escolhe um guia pronto, confere e edita os passos, ouve como vai ficar e manda o link pelo WhatsApp.
+- `guia.html`: lado da pessoa idosa. Um passo por tela, letra grande, botao para ouvir o passo (voz do proprio celular), voltar e avancar, e "Não consegui. Pedir ajuda", que abre o WhatsApp de quem mandou o guia ja dizendo em que passo travou.
+- `registro.html`: registro de uso dos testes, guardado so no aparelho onde o guia foi aberto.
+- `guias/`: a biblioteca (Isto é golpe?, Pix com segurança, chamada de video, mandar foto, aumentar a letra). `img/`: as ilustracoes de cada passo, com a marcacao do toque.
+- `FORMATO.md`: o formato de um guia e como ele vai no link.
+
+Para rodar no computador: `python3 -m http.server` nesta pasta e abrir `http://localhost:8000`.
+
+Ainda falta: o rascunho gerado por IA para pedidos fora da biblioteca (#8) e os prints reais das telas no lugar dos desenhos (#12). Os guias da biblioteca sao rascunhos e ainda precisam ser testados passo a passo no aplicativo real.
+
 ## Backlog do projeto
 
 Entrega transversal da disciplina. O backlog fica no projeto do GitHub vinculado a este repositorio, em formato de quadro Kanban, e vai sendo atualizado ao longo do semestre conforme o ciclo de Sprints (PBL, Lean Startup e Scrum/Kanban).

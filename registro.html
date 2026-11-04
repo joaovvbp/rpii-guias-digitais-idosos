@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Registro dos testes</title>
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+<main class="pagina">
+  <div class="barra">
+    <h1>Registro dos testes</h1>
+    <p>O que aconteceu em cada guia aberto neste aparelho. Nada disso sai do celular.</p>
+  </div>
+  <div class="miolo" id="saida"></div>
+  <div class="rodape">
+    <button class="primario" id="copiar">Copiar tudo (JSON)</button>
+    <button class="ajuda" id="limpar">Apagar o registro deste aparelho</button>
+  </div>
+</main>
+<script src="js/registro.js"></script>
+<script>
+(function () {
+  'use strict';
+  var saida = document.getElementById('saida');
+  var NOMES = { ver: 'viu', ouvir: 'ouviu', voltar: 'voltou', ajuda: 'pediu ajuda', mensagem: 'mandou mensagem', fim: 'terminou' };
+
+  function desenha() {
+    var s = Registro.todas().slice().reverse();
+    saida.innerHTML = '';
+    if (!s.length) { saida.innerHTML = '<p class="dica">Nenhum guia aberto neste aparelho ainda.</p>'; return; }
+    s.forEach(function (x) {
+      var ev = x.eventos || [];
+      var fim = ev.find(function (e) { return e.tipo === 'fim'; });
+      var conta = function (t) { return ev.filter(function (e) { return e.tipo === t; }).length; };
+      var dur = ev.length ? ev[ev.length - 1].t : 0;
+      var h = document.createElement('div');
+      h.className = 'passo-editavel';
+      var cab = document.createElement('p');
+      cab.style.margin = '0';
+      cab.innerHTML = '<b></b><br><span class="dica"></span>';
+      cab.querySelector('b').textContent = x.guia;
+      cab.querySelector('span').textContent = new Date(x.inicio).toLocaleString('pt-BR') + ' · ' +
+        (fim ? 'terminou em ' + fim.t + ' s' : 'não terminou (' + dur + ' s)') + ' · ouviu ' + conta('ouvir') +
+        'x · pediu ajuda ' + conta('ajuda') + 'x · voltou ' + conta('voltar') + 'x';
+      h.appendChild(cab);
+      var t = document.createElement('table');
+      t.innerHTML = '<tr><th>Tempo</th><th>Passo</th><th>O quê</th></tr>';
+      ev.forEach(function (e) {
+        var r = t.insertRow();
+        r.insertCell().textContent = e.t + ' s';
+        r.insertCell().textContent = e.passo + ' de ' + x.passos;
+        r.insertCell().textContent = NOMES[e.tipo] || e.tipo;
+      });
+      h.appendChild(t);
+      saida.appendChild(h);
+    });
+  }
+  desenha();
+
+  document.getElementById('copiar').addEventListener('click', function () {
+    var texto = JSON.stringify(Registro.todas(), null, 1);
+    (navigator.clipboard ? navigator.clipboard.writeText(texto) : Promise.reject()).then(function () {
+      document.getElementById('copiar').textContent = 'Copiado ✔';
+    }).catch(function () {
+      var pre = document.createElement('pre'); pre.textContent = texto; saida.prepend(pre);
+    });
+  });
+  document.getElementById('limpar').addEventListener('click', function () {
+    if (confirm('Apagar o registro de todos os testes deste aparelho?')) { Registro.limpa(); desenha(); }
+  });
+})();
+</script>
+</body>
+</html>
