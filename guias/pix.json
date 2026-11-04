@@ -10,19 +10,23 @@
  "passos": [
   {
    "frase": "Antes de começar: alguém está pedindo esse Pix com pressa, por mensagem ou por telefone? Pare e fale com {contato} primeiro.",
-   "emoji": "⚠️"
+   "emoji": "⚠️",
+   "audio": "audio/pix-1.mp3"
   },
   {
    "frase": "Abra o aplicativo do seu banco e toque em Pix.",
-   "emoji": "📱"
+   "emoji": "📱",
+   "audio": "audio/pix-2.mp3"
   },
   {
    "frase": "Toque em Pagar ou Transferir e digite a chave que a pessoa te passou: telefone, CPF ou e-mail.",
-   "emoji": "👆"
+   "emoji": "👆",
+   "audio": "audio/pix-3.mp3"
   },
   {
    "frase": "Digite o valor.",
-   "emoji": "💰"
+   "emoji": "💰",
+   "audio": "audio/pix-4.mp3"
   },
   {
    "frase": "Agora, o mais importante: leia o nome de quem vai receber. É mesmo a pessoa que você conhece? Se não for, cancele.",
@@ -33,7 +37,8 @@
     "y": 54,
     "l": 56,
     "a": 20
-   }
+   },
+   "audio": "audio/pix-5.mp3"
   },
   {
    "frase": "Confira o valor mais uma vez. Só então toque em Confirmar e digite a sua senha. Nunca passe a senha para ninguém.",
@@ -44,7 +49,8 @@
     "y": 30,
     "l": 40,
     "a": 13
-   }
+   },
+   "audio": "audio/pix-6.mp3"
   }
  ]
 }

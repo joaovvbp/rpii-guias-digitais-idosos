@@ -7,7 +7,8 @@
  "passos": [
   {
    "frase": "Abra o WhatsApp e toque na conversa da pessoa.",
-   "emoji": "💬"
+   "emoji": "💬",
+   "audio": "audio/foto-1.mp3"
   },
   {
    "frase": "Embaixo, ao lado de onde se escreve, toque no clipe de papel. No iPhone, é o sinal de mais, do lado esquerdo.",
@@ -18,7 +19,8 @@
     "y": 80,
     "l": 10,
     "a": 14
-   }
+   },
+   "audio": "audio/foto-2.mp3"
   },
   {
    "frase": "Toque em Galeria. No iPhone, o nome é Fotos.",
@@ -29,11 +31,13 @@
     "y": 24,
     "l": 22,
     "a": 34
-   }
+   },
+   "audio": "audio/foto-3.mp3"
   },
   {
    "frase": "Toque na foto que você quer mandar.",
-   "emoji": "🖼️"
+   "emoji": "🖼️",
+   "audio": "audio/foto-4.mp3"
   },
   {
    "frase": "Toque no botão verde com a seta, no canto de baixo, para enviar.",
@@ -44,7 +48,8 @@
     "y": 75,
     "l": 17,
     "a": 23
-   }
+   },
+   "audio": "audio/foto-5.mp3"
   }
  ]
 }

@@ -7,7 +7,8 @@
  "passos": [
   {
    "frase": "Abra as Configurações, o ícone de engrenagem. No iPhone, o nome é Ajustes.",
-   "emoji": "⚙️"
+   "emoji": "⚙️",
+   "audio": "audio/letra-1.mp3"
   },
   {
    "frase": "Toque na lupa, no alto da tela, para procurar.",
@@ -18,15 +19,18 @@
     "y": 8,
     "l": 13,
     "a": 17
-   }
+   },
+   "audio": "audio/letra-2.mp3"
   },
   {
    "frase": "Escreva a palavra fonte. No iPhone, escreva tamanho do texto.",
-   "emoji": "🔎"
+   "emoji": "🔎",
+   "audio": "audio/letra-3.mp3"
   },
   {
    "frase": "Toque em Tamanho da fonte.",
-   "emoji": "👆"
+   "emoji": "👆",
+   "audio": "audio/letra-4.mp3"
   },
   {
    "frase": "Arraste a bolinha azul para a direita até a letra ficar boa de ler.",
@@ -37,11 +41,13 @@
     "y": 71,
     "l": 70,
     "a": 14
-   }
+   },
+   "audio": "audio/letra-5.mp3"
   },
   {
    "frase": "Pronto. Pode voltar. A letra já fica maior em todo o celular.",
-   "emoji": "✅"
+   "emoji": "✅",
+   "audio": "audio/letra-6.mp3"
   }
  ]
 }
