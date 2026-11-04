@@ -33,6 +33,7 @@ var Guias = (function () {
       var limpo = { frase: p.frase.trim().slice(0, 300) };
       if (typeof p.fala === 'string' && p.fala.trim()) limpo.fala = p.fala.trim().slice(0, 500);
       if (typeof p.emoji === 'string' && p.emoji) limpo.emoji = p.emoji.slice(0, 8);
+      if (typeof p.audio === 'string' && /^audio\/[a-z0-9-]+\.mp3$/.test(p.audio)) limpo.audio = p.audio;
       if (typeof p.imagem === 'string' && /^img\/[a-z0-9-]+\.(svg|png|jpg|webp)$/.test(p.imagem)) {
         limpo.imagem = p.imagem;
         if (p.descricao) limpo.descricao = String(p.descricao).slice(0, 200);

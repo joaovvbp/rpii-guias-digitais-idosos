@@ -23,6 +23,7 @@ Site estatico, sem servidor e sem login, publicado pelo GitHub Pages.
 - `registro.html`: registro de uso dos testes, guardado so no aparelho onde o guia foi aberto.
 - `guias/`: a biblioteca (Isto é golpe?, Pix com segurança, chamada de video, mandar foto, aumentar a letra). `img/`: as ilustracoes de cada passo, com a marcacao do toque.
 - `FORMATO.md`: o formato de um guia e como ele vai no link.
+- `audio/`: um MP3 por passo dos guias da biblioteca, com voz neural (Piper, voz pt_BR faber). Para gerar de novo depois de mudar um guia: `python3 ferramentas/gerar_audio.py --piper <piper> --voz <pt_BR-faber-medium.onnx>`.
 
 Para rodar no computador: `python3 -m http.server` nesta pasta e abrir `http://localhost:8000`.
 

@@ -169,14 +169,15 @@
       ta.style.minHeight = '72px';
       ta.addEventListener('input', function () {
         p.frase = ta.value;
-        delete p.fala; // a fala segue a frase editada
+        delete p.fala;  // a fala segue a frase editada
+        delete p.audio; // o áudio gravado era da frase antiga
         atualizaEnvio();
       });
       d.appendChild(ta);
 
       var acoes = document.createElement('div');
       acoes.className = 'acoes';
-      [['▶ Ouvir', function () { Fala.falar(Guias.comContato(p.fala || p.frase, contato())); }],
+      [['▶ Ouvir', function () { Fala.passo(p, Guias.comContato(p.fala || p.frase, contato())); }],
        ['↑', function () { if (i > 0) { troca(i, i - 1); } }],
        ['↓', function () { if (i < guia.passos.length - 1) { troca(i, i + 1); } }],
        ['Apagar', function () { if (guia.passos.length > 1) { guia.passos.splice(i, 1); desenhaPassos(); atualizaEnvio(); } }]
@@ -212,7 +213,9 @@
       if (i >= guia.passos.length) return;
       var p = guia.passos[i++];
       if (!p.frase.trim()) { proximo(); return; }
-      Fala.falar('Passo ' + i + '. ' + Guias.comContato(p.fala || p.frase, c), proximo);
+      var texto = Guias.comContato(p.fala || p.frase, c);
+      if (p.audio) Fala.passo(p, texto, proximo);
+      else Fala.falar('Passo ' + i + '. ' + texto, proximo);
     })();
   });
 

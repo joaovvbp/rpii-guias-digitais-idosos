@@ -22,6 +22,7 @@ var Fala = (function () {
 
   function falar(texto, aoTerminar) {
     if (!disponivel()) return false;
+    if (tocando) { tocando.pause(); tocando = null; }
     speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(texto);
     u.lang = 'pt-BR';
@@ -32,7 +33,30 @@ var Fala = (function () {
     return true;
   }
 
-  function parar() { if (disponivel()) speechSynthesis.cancel(); }
+  // Áudio pré-gerado do passo (guias da biblioteca). Se o arquivo não carregar,
+  // cai para a voz do aparelho.
+  var tocando = null;
+  function tocar(arquivo, texto, aoTerminar) {
+    parar();
+    var a = new Audio(arquivo);
+    tocando = a;
+    if (aoTerminar) a.onended = aoTerminar;
+    var reserva = function () { if (tocando === a) { tocando = null; falar(texto, aoTerminar); } };
+    a.onerror = reserva;
+    var p = a.play();
+    if (p && p.catch) p.catch(reserva);
+    return true;
+  }
 
-  return { falar: falar, parar: parar, disponivel: disponivel };
+  // Toca o arquivo do passo quando existe; senão, lê com a voz do aparelho.
+  function passo(p, texto, aoTerminar) {
+    return p.audio ? tocar(p.audio, texto, aoTerminar) : falar(texto, aoTerminar);
+  }
+
+  function parar() {
+    if (tocando) { tocando.onended = null; tocando.onerror = null; tocando.pause(); tocando = null; }
+    if (disponivel()) speechSynthesis.cancel();
+  }
+
+  return { falar: falar, passo: passo, parar: parar, disponivel: disponivel };
 })();

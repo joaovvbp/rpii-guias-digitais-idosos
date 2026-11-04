@@ -12,7 +12,8 @@
  "passos": [
   {
    "frase": "Recebeu uma mensagem estranha? Pare. Não toque em nada ainda.",
-   "emoji": "✋"
+   "emoji": "✋",
+   "audio": "audio/golpe-1.mp3"
   },
   {
    "frase": "A mensagem tem pressa ou ameaça, tipo \"pague hoje\" ou \"sua conta vai ser bloqueada\"? Isso é sinal de golpe.",
@@ -23,7 +24,8 @@
     "y": 38,
     "l": 16,
     "a": 10
-   }
+   },
+   "audio": "audio/golpe-2.mp3"
   },
   {
    "frase": "Ela pede para tocar num link, pagar uma taxa ou passar uma senha ou um código? Também é sinal de golpe.",
@@ -34,7 +36,8 @@
     "y": 58,
     "l": 60,
     "a": 12
-   }
+   },
+   "audio": "audio/golpe-3.mp3"
   },
   {
    "frase": "Alguém diz que é da família, que trocou de número, e pede dinheiro? Antes de qualquer coisa, ligue para o número antigo da pessoa.",
@@ -45,15 +48,18 @@
     "y": 28,
     "l": 48,
     "a": 11
-   }
+   },
+   "audio": "audio/golpe-4.mp3"
   },
   {
    "frase": "Banco, INSS e Correios não pedem senha, código nem pagamento por mensagem.",
-   "emoji": "🔒"
+   "emoji": "🔒",
+   "audio": "audio/golpe-5.mp3"
   },
   {
    "frase": "Na dúvida, não responda e não toque em nada. Fale com {contato}.",
-   "emoji": "📞"
+   "emoji": "📞",
+   "audio": "audio/golpe-6.mp3"
   }
  ]
 }

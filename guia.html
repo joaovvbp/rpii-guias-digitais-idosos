@@ -110,7 +110,7 @@
   }
 
   $('ouvir').addEventListener('click', function () {
-    if (Fala.falar(fala(guia.passos[atual]))) Registro.anota('ouvir', atual + 1);
+    if (Fala.passo(guia.passos[atual], fala(guia.passos[atual]))) Registro.anota('ouvir', atual + 1);
     else $('ouvir').textContent = 'Este celular não lê em voz alta';
   });
   $('voltar').addEventListener('click', function () {
