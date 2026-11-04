@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Guia passo a passo</title>
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+<main class="pagina">
+  <div class="miolo" id="carregando"><p class="frase">Abrindo o guia...</p></div>
+
+  <div class="miolo escondido" id="falhou">
+    <p class="frase">Não consegui abrir este guia.</p>
+    <p class="dica" id="motivo"></p>
+    <p class="dica">Peça para quem te mandou o link enviar de novo.</p>
+  </div>
+
+  <section class="escondido" id="tela-passo" aria-live="polite">
+    <div class="barra"><h1 id="titulo"></h1></div>
+    <div class="miolo">
+      <p class="progresso" id="progresso"></p>
+      <p class="frase" id="frase"></p>
+      <div class="ilustra escondido" id="ilustra"><img id="imagem" alt=""><div class="marca escondido" id="marca"></div></div>
+      <p class="grande escondido" id="emoji" aria-hidden="true"></p>
+      <button class="ouvir" id="ouvir">▶ Ouvir este passo</button>
+    </div>
+    <div class="rodape">
+      <div class="navegacao">
+        <button class="secundario" id="voltar">◀ Voltar</button>
+        <button class="primario" id="proximo">Próximo passo ▶</button>
+      </div>
+      <button class="ajuda" id="ajuda">Não consegui. Pedir ajuda</button>
+    </div>
+  </section>
+
+  <section class="escondido" id="tela-fim">
+    <div class="barra"><h1>Pronto!</h1></div>
+    <div class="miolo">
+      <p class="grande" aria-hidden="true">✅</p>
+      <p class="frase">Você chegou ao fim do guia.</p>
+      <p class="dica" id="fim-dica"></p>
+    </div>
+    <div class="rodape">
+      <a class="botao whats escondido" id="avisar-fim" target="_blank" rel="noopener">Avisar que deu certo</a>
+      <button class="secundario" id="de-novo">Ver o guia de novo</button>
+    </div>
+  </section>
+</main>
+
+<div class="painel" id="painel" role="dialog" aria-modal="true" aria-labelledby="painel-texto">
+  <div class="caixa">
+    <p id="painel-texto">Tudo bem. Quer pedir ajuda?</p>
+    <a class="botao whats escondido" id="mandar-ajuda" target="_blank" rel="noopener"></a>
+    <p class="dica escondido" id="sem-contato">Mostre esta tela para alguém de confiança e peça ajuda neste passo.</p>
+    <button class="secundario" id="fechar-painel">Voltar ao passo</button>
+  </div>
+</div>
+
+<script src="js/formato.js"></script>
+<script src="js/fala.js"></script>
+<script src="js/registro.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var guia, contato, atual = 0;
+
+  function mostra(id) {
+    ['carregando', 'falhou', 'tela-passo', 'tela-fim'].forEach(function (s) {
+      $(s).classList.toggle('escondido', s !== id);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function texto(p) { return Guias.comContato(p.frase, contato); }
+  function fala(p) { return Guias.comContato(p.fala || p.frase, contato); }
+
+  function zap(mensagem) {
+    return 'https://wa.me/' + contato.tel + '?text=' + encodeURIComponent(mensagem);
+  }
+
+  function desenha() {
+    var p = guia.passos[atual], n = guia.passos.length;
+    Fala.parar();
+    $('progresso').textContent = 'Passo ' + (atual + 1) + ' de ' + n;
+    $('frase').textContent = texto(p);
+    $('voltar').disabled = atual === 0;
+    $('proximo').textContent = atual === n - 1 ? 'Terminei ✔' : 'Próximo passo ▶';
+
+    $('ilustra').classList.toggle('escondido', !p.imagem);
+    $('emoji').classList.toggle('escondido', !!p.imagem || !p.emoji);
+    if (p.imagem) {
+      $('imagem').src = p.imagem;
+      $('imagem').alt = p.descricao || '';
+      var m = p.marca;
+      $('marca').classList.toggle('escondido', !m);
+      if (m) {
+        $('marca').style.left = m.x + '%';
+        $('marca').style.top = m.y + '%';
+        $('marca').style.width = m.l + '%';
+        $('marca').style.height = m.a + '%';
+      }
+    } else if (p.emoji) {
+      $('emoji').textContent = p.emoji;
+    }
+    mostra('tela-passo');
+    Registro.anota('ver', atual + 1);
+  }
+
+  $('ouvir').addEventListener('click', function () {
+    if (Fala.falar(fala(guia.passos[atual]))) Registro.anota('ouvir', atual + 1);
+    else $('ouvir').textContent = 'Este celular não lê em voz alta';
+  });
+  $('voltar').addEventListener('click', function () {
+    if (atual > 0) { atual--; Registro.anota('voltar', atual + 1); desenha(); }
+  });
+  $('proximo').addEventListener('click', function () {
+    if (atual < guia.passos.length - 1) { atual++; desenha(); return; }
+    Fala.parar();
+    Registro.anota('fim', atual + 1);
+    $('fim-dica').textContent = contato.nome ? 'Se ficou alguma dúvida, fale com ' + contato.nome + '.' : '';
+    if (contato.tel) {
+      $('avisar-fim').href = zap('Consegui! Terminei o guia "' + guia.titulo + '".');
+      $('avisar-fim').classList.remove('escondido');
+    }
+    mostra('tela-fim');
+  });
+  $('de-novo').addEventListener('click', function () { atual = 0; desenha(); });
+
+  // "Não consegui": cobre o pedido de ajuda (#5) e o aviso de passo que não deu certo (#13).
+  $('ajuda').addEventListener('click', function () {
+    Fala.parar();
+    Registro.anota('ajuda', atual + 1);
+    if (contato.tel) {
+      var quem = contato.nome || 'quem te mandou o guia';
+      $('painel-texto').textContent = 'Tudo bem. Quer avisar ' + quem + '?';
+      $('mandar-ajuda').textContent = 'Mandar mensagem para ' + quem;
+      $('mandar-ajuda').href = zap('Oi! Estou no guia "' + guia.titulo + '", no passo ' + (atual + 1) +
+        ', e não consegui: "' + texto(guia.passos[atual]) + '". Pode me ajudar?');
+      $('mandar-ajuda').classList.remove('escondido');
+    } else {
+      $('painel-texto').textContent = 'Tudo bem. Vamos pedir ajuda.';
+      $('sem-contato').classList.remove('escondido');
+    }
+    $('painel').classList.add('aberto');
+    $('fechar-painel').focus();
+  });
+  $('mandar-ajuda').addEventListener('click', function () { Registro.anota('mensagem', atual + 1); });
+  $('fechar-painel').addEventListener('click', function () { $('painel').classList.remove('aberto'); });
+
+  Guias.doLink().then(function (r) {
+    guia = r.guia; contato = r.contato;
+    document.title = guia.titulo;
+    $('titulo').textContent = guia.titulo;
+    Registro.inicia(guia.titulo, guia.passos.length);
+    desenha();
+  }).catch(function (e) {
+    $('motivo').textContent = e.message;
+    mostra('falhou');
+  });
+})();
+</script>
+</body>
+</html>

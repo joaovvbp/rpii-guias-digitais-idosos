@@ -1,0 +1,59 @@
+{
+ "id": "golpe",
+ "titulo": "Isto é golpe?",
+ "categoria": "Dinheiro com segurança",
+ "resumo": "Como reconhecer uma mensagem de golpe antes de tocar em qualquer coisa.",
+ "revisado": "rascunho de 04/11/2026, falta conferir com as fontes oficiais",
+ "fontes": [
+  "Banco Central do Brasil, orientações sobre golpes com Pix",
+  "Febraban, dicas de segurança contra golpes",
+  "Correios, aviso sobre mensagens falsas de taxa de encomenda"
+ ],
+ "passos": [
+  {
+   "frase": "Recebeu uma mensagem estranha? Pare. Não toque em nada ainda.",
+   "emoji": "✋"
+  },
+  {
+   "frase": "A mensagem tem pressa ou ameaça, tipo \"pague hoje\" ou \"sua conta vai ser bloqueada\"? Isso é sinal de golpe.",
+   "imagem": "img/golpe-mensagem.svg",
+   "descricao": "Mensagem pedindo para pagar uma taxa hoje, com a palavra HOJE marcada",
+   "marca": {
+    "x": 36,
+    "y": 38,
+    "l": 16,
+    "a": 10
+   }
+  },
+  {
+   "frase": "Ela pede para tocar num link, pagar uma taxa ou passar uma senha ou um código? Também é sinal de golpe.",
+   "imagem": "img/golpe-mensagem.svg",
+   "descricao": "A mesma mensagem, com o link marcado",
+   "marca": {
+    "x": 6,
+    "y": 58,
+    "l": 60,
+    "a": 12
+   }
+  },
+  {
+   "frase": "Alguém diz que é da família, que trocou de número, e pede dinheiro? Antes de qualquer coisa, ligue para o número antigo da pessoa.",
+   "imagem": "img/golpe-parente.svg",
+   "descricao": "Mensagem de um número desconhecido dizendo que trocou de número e pedindo Pix",
+   "marca": {
+    "x": 25,
+    "y": 28,
+    "l": 48,
+    "a": 11
+   }
+  },
+  {
+   "frase": "Banco, INSS e Correios não pedem senha, código nem pagamento por mensagem.",
+   "emoji": "🔒"
+  },
+  {
+   "frase": "Na dúvida, não responda e não toque em nada. Fale com {contato}.",
+   "emoji": "📞"
+  }
+ ]
+}

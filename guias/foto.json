@@ -1,0 +1,50 @@
+{
+ "id": "foto",
+ "titulo": "Mandar uma foto pelo WhatsApp",
+ "categoria": "Comunicação",
+ "resumo": "Enviar uma foto que já está no celular.",
+ "revisado": "rascunho de 04/11/2026, falta testar no aplicativo",
+ "passos": [
+  {
+   "frase": "Abra o WhatsApp e toque na conversa da pessoa.",
+   "emoji": "💬"
+  },
+  {
+   "frase": "Embaixo, ao lado de onde se escreve, toque no clipe de papel. No iPhone, é o sinal de mais, do lado esquerdo.",
+   "imagem": "img/foto-anexo.svg",
+   "descricao": "Barra de escrever mensagem, com o clipe de papel marcado",
+   "marca": {
+    "x": 56,
+    "y": 80,
+    "l": 10,
+    "a": 14
+   }
+  },
+  {
+   "frase": "Toque em Galeria. No iPhone, o nome é Fotos.",
+   "imagem": "img/foto-galeria.svg",
+   "descricao": "Menu de anexos, com Galeria marcada",
+   "marca": {
+    "x": 69,
+    "y": 24,
+    "l": 22,
+    "a": 34
+   }
+  },
+  {
+   "frase": "Toque na foto que você quer mandar.",
+   "emoji": "🖼️"
+  },
+  {
+   "frase": "Toque no botão verde com a seta, no canto de baixo, para enviar.",
+   "imagem": "img/foto-enviar.svg",
+   "descricao": "Foto pronta para envio, com o botão de enviar marcado",
+   "marca": {
+    "x": 81,
+    "y": 75,
+    "l": 17,
+    "a": 23
+   }
+  }
+ ]
+}
