@@ -175,6 +175,9 @@ details summary { font-weight: 700; font-size: 17px; cursor: pointer; }
 .como-gravar, .roteiro { padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
 .roteiro { font-size: 19px; font-weight: 700; }
 
+/* aviso de versão intermediária */
+.em-desenvolvimento { background: #fff4d6; border-bottom: 2px solid #e0a800; color: #4a3b00; font-size: 14px; padding: 10px 16px; line-height: 1.35; }
+
 /* Modo vídeo: telas paradas para o vídeo do guia, sem nada para tocar. */
 .modo-video .rodape, .modo-video #ouvir { display: none !important; }
 .modo-video .frase { font-size: 30px; }

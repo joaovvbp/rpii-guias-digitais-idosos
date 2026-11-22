@@ -16,6 +16,8 @@ IA entra como assistente na redacao do guia a partir de uma biblioteca de tarefa
 
 ## O MVP
 
+> **Versao intermediaria.** O que esta aqui nao e o resultado final esperado, e sim um passo do desenvolvimento para testar o pivo (o idoso recebe so um video). Os videos ainda usam telas desenhadas, o visual e provisorio e o tamanho da letra ainda nao foi adequado para pessoas idosas. O objetivo e usar gravacoes reais da tela do celular da pessoa, com toque visivel e narracao (#23, #25, #26).
+
 Site estatico, sem servidor e sem login, publicado pelo GitHub Pages.
 
 A pessoa idosa nao usa nenhuma interface nova: recebe so um video no WhatsApp, que imita uma gravacao da tela do celular dela, com o toque visivel e a narracao de cada passo. O site e a ferramenta do cuidador para gerar esse video.
