@@ -148,3 +148,9 @@ textarea { min-height: 96px; resize: vertical; }
 table { border-collapse: collapse; width: 100%; font-size: 14px; }
 th, td { border-bottom: 1px solid #e3e3e3; padding: 6px 4px; text-align: left; vertical-align: top; }
 pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; background: #f6f6f6; padding: 10px; border-radius: 8px; }
+
+/* Modo vídeo: telas paradas para o vídeo do guia, sem nada para tocar. */
+.modo-video .rodape, .modo-video #ouvir { display: none !important; }
+.modo-video .frase { font-size: 30px; }
+.modo-video .miolo { justify-content: center; }
+.modo-video .dica { font-size: 22px; }
