@@ -18,11 +18,11 @@
   </div>
 
   <section class="escondido" id="tela-passo" aria-live="polite">
-    <div class="barra"><h1 id="titulo"></h1></div>
+    <div class="barra"><p class="de-quem escondido" id="de-quem"></p><h1 id="titulo"></h1></div>
     <div class="miolo">
       <p class="progresso" id="progresso"></p>
       <p class="frase" id="frase"></p>
-      <div class="ilustra escondido" id="ilustra"><img id="imagem" alt=""><div class="marca escondido" id="marca"></div></div>
+      <div class="ilustra exemplo escondido" id="ilustra"><span class="selo">Imagem de exemplo</span><div class="quadro"><img id="imagem" alt=""><div class="marca escondido" id="marca"></div></div></div>
       <p class="grande escondido" id="emoji" aria-hidden="true"></p>
       <button class="ouvir" id="ouvir">▶ Ouvir este passo</button>
     </div>
@@ -31,7 +31,6 @@
         <button class="secundario" id="voltar">◀ Voltar</button>
         <button class="primario" id="proximo">Próximo passo ▶</button>
       </div>
-      <button class="ajuda" id="ajuda">Não consegui. Pedir ajuda</button>
     </div>
   </section>
 
@@ -58,14 +57,6 @@
   </section>
 </main>
 
-<div class="painel" id="painel" role="dialog" aria-modal="true" aria-labelledby="painel-texto">
-  <div class="caixa">
-    <p id="painel-texto">Tudo bem. Quer pedir ajuda?</p>
-    <a class="botao whats escondido" id="mandar-ajuda" target="_blank" rel="noopener"></a>
-    <p class="dica escondido" id="sem-contato">Mostre esta tela para alguém de confiança e peça ajuda neste passo.</p>
-    <button class="secundario" id="fechar-painel">Voltar ao passo</button>
-  </div>
-</div>
 
 <script src="js/formato.js"></script>
 <script src="js/fala.js"></script>
@@ -138,26 +129,6 @@
   });
   $('de-novo').addEventListener('click', function () { atual = 0; desenha(); });
 
-  // "Não consegui": cobre o pedido de ajuda (#5) e o aviso de passo que não deu certo (#13).
-  $('ajuda').addEventListener('click', function () {
-    Fala.parar();
-    Registro.anota('ajuda', atual + 1);
-    if (contato.tel) {
-      var quem = contato.nome || 'quem te mandou o guia';
-      $('painel-texto').textContent = 'Tudo bem. Quer avisar ' + quem + '?';
-      $('mandar-ajuda').textContent = 'Mandar mensagem para ' + quem;
-      $('mandar-ajuda').href = zap('Oi! Estou no guia "' + guia.titulo + '", no passo ' + (atual + 1) +
-        ', e não consegui: "' + texto(guia.passos[atual]) + '". Pode me ajudar?');
-      $('mandar-ajuda').classList.remove('escondido');
-    } else {
-      $('painel-texto').textContent = 'Tudo bem. Vamos pedir ajuda.';
-      $('sem-contato').classList.remove('escondido');
-    }
-    $('painel').classList.add('aberto');
-    $('fechar-painel').focus();
-  });
-  $('mandar-ajuda').addEventListener('click', function () { Registro.anota('mensagem', atual + 1); });
-  $('fechar-painel').addEventListener('click', function () { $('painel').classList.remove('aberto'); });
 
   // Modo vídeo (ferramentas/gerar_video.py): mostra uma tela parada, sem botões e sem registro.
   // O nome de quem ajuda não existe no vídeo, então a frase usa o mesmo texto do áudio.
@@ -198,6 +169,11 @@
     guia = r.guia; contato = r.contato;
     document.title = guia.titulo;
     $('titulo').textContent = guia.titulo;
+    // Quem mandou aparece no alto de todas as telas, para a pessoa reconhecer (#21).
+    if (contato.nome) {
+      $('de-quem').textContent = 'Guia que ' + contato.nome + ' fez para você';
+      $('de-quem').classList.remove('escondido');
+    }
     if (video) { telaDoVideo(); return; }
     Registro.inicia(guia.titulo, guia.passos.length);
     desenha();

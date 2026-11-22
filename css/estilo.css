@@ -158,6 +158,13 @@ pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; background
 .pequena-frase { font-size: 22px; }
 video { width: 100%; max-height: 50vh; border-radius: 12px; background: #000; }
 
+/* imagem com cara de exemplo, para não parecer a tela de verdade (#21) */
+.ilustra.exemplo { border: 3px dashed var(--cinza); padding: 28px 8px 8px; background: #f1f3f4; pointer-events: none; }
+.ilustra .quadro { position: relative; }
+.ilustra.exemplo img { border-radius: 10px; }
+.ilustra .selo { position: absolute; top: 5px; left: 10px; font-size: 14px; font-weight: 700; color: var(--cinza); text-transform: uppercase; letter-spacing: .04em; }
+.barra .de-quem { margin: 0 0 4px; font-size: 16px; font-weight: 600; opacity: .95; }
+
 /* Modo vídeo: telas paradas para o vídeo do guia, sem nada para tocar. */
 .modo-video .rodape, .modo-video #ouvir { display: none !important; }
 .modo-video .frase { font-size: 30px; }
