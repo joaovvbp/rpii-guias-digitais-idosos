@@ -18,11 +18,11 @@
   </div>
 
   <section class="escondido" id="tela-passo" aria-live="polite">
-    <div class="barra"><h1 id="titulo"></h1></div>
+    <div class="barra"><p class="de-quem escondido" id="de-quem"></p><h1 id="titulo"></h1></div>
     <div class="miolo">
       <p class="progresso" id="progresso"></p>
       <p class="frase" id="frase"></p>
-      <div class="ilustra escondido" id="ilustra"><img id="imagem" alt=""><div class="marca escondido" id="marca"></div></div>
+      <div class="ilustra exemplo escondido" id="ilustra"><span class="selo">Imagem de exemplo</span><div class="quadro"><img id="imagem" alt=""><div class="marca escondido" id="marca"></div></div></div>
       <p class="grande escondido" id="emoji" aria-hidden="true"></p>
       <button class="ouvir" id="ouvir">▶ Ouvir este passo</button>
     </div>
@@ -31,7 +31,15 @@
         <button class="secundario" id="voltar">◀ Voltar</button>
         <button class="primario" id="proximo">Próximo passo ▶</button>
       </div>
-      <button class="ajuda" id="ajuda">Não consegui. Pedir ajuda</button>
+    </div>
+  </section>
+
+  <section class="escondido" id="tela-capa">
+    <div class="barra"><h1>Guia passo a passo</h1></div>
+    <div class="miolo">
+      <p class="grande" aria-hidden="true">🎬</p>
+      <p class="frase" id="capa-titulo"></p>
+      <p class="dica" id="capa-dica"></p>
     </div>
   </section>
 
@@ -49,14 +57,6 @@
   </section>
 </main>
 
-<div class="painel" id="painel" role="dialog" aria-modal="true" aria-labelledby="painel-texto">
-  <div class="caixa">
-    <p id="painel-texto">Tudo bem. Quer pedir ajuda?</p>
-    <a class="botao whats escondido" id="mandar-ajuda" target="_blank" rel="noopener"></a>
-    <p class="dica escondido" id="sem-contato">Mostre esta tela para alguém de confiança e peça ajuda neste passo.</p>
-    <button class="secundario" id="fechar-painel">Voltar ao passo</button>
-  </div>
-</div>
 
 <script src="js/formato.js"></script>
 <script src="js/fala.js"></script>
@@ -68,7 +68,7 @@
   var guia, contato, atual = 0;
 
   function mostra(id) {
-    ['carregando', 'falhou', 'tela-passo', 'tela-fim'].forEach(function (s) {
+    ['carregando', 'falhou', 'tela-passo', 'tela-capa', 'tela-fim'].forEach(function (s) {
       $(s).classList.toggle('escondido', s !== id);
     });
     window.scrollTo(0, 0);
@@ -129,31 +129,52 @@
   });
   $('de-novo').addEventListener('click', function () { atual = 0; desenha(); });
 
-  // "Não consegui": cobre o pedido de ajuda (#5) e o aviso de passo que não deu certo (#13).
-  $('ajuda').addEventListener('click', function () {
-    Fala.parar();
-    Registro.anota('ajuda', atual + 1);
-    if (contato.tel) {
-      var quem = contato.nome || 'quem te mandou o guia';
-      $('painel-texto').textContent = 'Tudo bem. Quer avisar ' + quem + '?';
-      $('mandar-ajuda').textContent = 'Mandar mensagem para ' + quem;
-      $('mandar-ajuda').href = zap('Oi! Estou no guia "' + guia.titulo + '", no passo ' + (atual + 1) +
-        ', e não consegui: "' + texto(guia.passos[atual]) + '". Pode me ajudar?');
-      $('mandar-ajuda').classList.remove('escondido');
+
+  // Modo vídeo (ferramentas/gerar_video.py): mostra uma tela parada, sem botões e sem registro.
+  // O nome de quem ajuda não existe no vídeo, então a frase usa o mesmo texto do áudio.
+  var video = new URLSearchParams(location.hash.replace(/^#/, '')).get('video');
+
+  function telaDoVideo() {
+    document.body.classList.add('modo-video');
+    contato = { nome: 'a pessoa que te mandou este guia', tel: '' };
+    var n = guia.passos.length;
+    if (video === 'capa') {
+      $('capa-titulo').textContent = guia.titulo;
+      $('capa-dica').textContent = n + ' passos. Assista com calma, pode pausar e voltar quando quiser.';
+      mostra('tela-capa');
+    } else if (video === 'fim') {
+      $('fim-dica').textContent = 'Se ficou alguma dúvida, fale com quem te mandou este vídeo.';
+      mostra('tela-fim');
     } else {
-      $('painel-texto').textContent = 'Tudo bem. Vamos pedir ajuda.';
-      $('sem-contato').classList.remove('escondido');
+      atual = Math.min(Math.max(parseInt(video, 10) || 1, 1), n) - 1;
+      $('progresso').textContent = 'Passo ' + (atual + 1) + ' de ' + n;
+      $('frase').textContent = texto(guia.passos[atual]);
+      var p = guia.passos[atual];
+      $('ilustra').classList.toggle('escondido', !p.imagem);
+      $('emoji').classList.toggle('escondido', !!p.imagem || !p.emoji);
+      if (p.imagem) {
+        $('imagem').src = p.imagem;
+        var m = p.marca;
+        $('marca').classList.toggle('escondido', !m);
+        if (m) { $('marca').style.left = m.x + '%'; $('marca').style.top = m.y + '%'; $('marca').style.width = m.l + '%'; $('marca').style.height = m.a + '%'; }
+      } else if (p.emoji) {
+        $('emoji').textContent = p.emoji;
+      }
+      mostra('tela-passo');
     }
-    $('painel').classList.add('aberto');
-    $('fechar-painel').focus();
-  });
-  $('mandar-ajuda').addEventListener('click', function () { Registro.anota('mensagem', atual + 1); });
-  $('fechar-painel').addEventListener('click', function () { $('painel').classList.remove('aberto'); });
+    document.body.setAttribute('data-pronto', '1');
+  }
 
   Guias.doLink().then(function (r) {
     guia = r.guia; contato = r.contato;
     document.title = guia.titulo;
     $('titulo').textContent = guia.titulo;
+    // Quem mandou aparece no alto de todas as telas, para a pessoa reconhecer (#21).
+    if (contato.nome) {
+      $('de-quem').textContent = 'Guia que ' + contato.nome + ' fez para você';
+      $('de-quem').classList.remove('escondido');
+    }
+    if (video) { telaDoVideo(); return; }
     Registro.inicia(guia.titulo, guia.passos.length);
     desenha();
   }).catch(function (e) {

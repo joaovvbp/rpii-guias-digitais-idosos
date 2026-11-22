@@ -28,7 +28,7 @@
    "audio": "audio/golpe-2.mp3"
   },
   {
-   "frase": "Ela pede para tocar num link, pagar uma taxa ou passar uma senha ou um código? Também é sinal de golpe.",
+   "frase": "Ela pede para tocar num link, pagar uma taxa ou passar a sua senha ou os números que chegaram por SMS? Também é sinal de golpe.",
    "imagem": "img/golpe-mensagem.svg",
    "descricao": "A mesma mensagem, com o link marcado",
    "marca": {
@@ -52,7 +52,7 @@
    "audio": "audio/golpe-4.mp3"
   },
   {
-   "frase": "Banco, INSS e Correios não pedem senha, código nem pagamento por mensagem.",
+   "frase": "Banco, INSS e Correios não pedem por mensagem a sua senha, os números que chegam por SMS nem pagamento.",
    "emoji": "🔒",
    "audio": "audio/golpe-5.mp3"
   },

@@ -18,8 +18,9 @@ IA entra como assistente na redacao do guia a partir de uma biblioteca de tarefa
 
 Site estatico, sem servidor e sem login, publicado pelo GitHub Pages.
 
-- `index.html`: lado do cuidador. Descreve o pedido em texto livre ou escolhe um guia pronto, confere e edita os passos, ouve como vai ficar e manda o link pelo WhatsApp.
-- `guia.html`: lado da pessoa idosa. Um passo por tela, letra grande, botao para ouvir o passo (voz do proprio celular), voltar e avancar, e "Não consegui. Pedir ajuda", que abre o WhatsApp de quem mandou o guia ja dizendo em que passo travou.
+- `index.html`: lado do cuidador, em tres etapas: escolher um guia pronto ou descrever o pedido (sem guia que combine, aparecem sugestoes antes do rascunho em branco), conferir um passo por tela e mandar pelo WhatsApp. Guia pronto vai como video; guia editado vai por link.
+- `guia.html`: lado da pessoa idosa. Mostra quem mandou, um passo por tela, letra grande, imagem marcada como exemplo, botao para ouvir o passo, voltar e avancar. Com `&video=capa|<n>|fim` no endereco, mostra uma tela parada para o video.
+- `videos/`: um MP4 por guia da biblioteca, com a tela e o audio de cada passo, para mandar pelo WhatsApp sem link. Para gerar de novo: `python3 ferramentas/gerar_video.py --piper <piper> --voz <pt_BR-faber-medium.onnx>`.
 - `registro.html`: registro de uso dos testes, guardado so no aparelho onde o guia foi aberto.
 - `guias/`: a biblioteca (Isto é golpe?, Pix com segurança, chamada de video, mandar foto, aumentar a letra). `img/`: as ilustracoes de cada passo, com a marcacao do toque.
 - `FORMATO.md`: o formato de um guia e como ele vai no link.
@@ -27,7 +28,7 @@ Site estatico, sem servidor e sem login, publicado pelo GitHub Pages.
 
 Para rodar no computador: `python3 -m http.server` nesta pasta e abrir `http://localhost:8000`.
 
-Ainda falta: o rascunho gerado por IA para pedidos fora da biblioteca (#8) e os prints reais das telas no lugar dos desenhos (#12). Os guias da biblioteca sao rascunhos e ainda precisam ser testados passo a passo no aplicativo real.
+Ainda falta: o rascunho gerado por IA para pedidos fora da biblioteca (#8), os prints reais das telas no lugar dos desenhos (#12) e video tambem para os guias editados pelo cuidador. Os guias da biblioteca sao rascunhos e ainda precisam ser testados passo a passo no aplicativo real.
 
 ## Backlog do projeto
 
