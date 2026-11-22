@@ -18,9 +18,11 @@ IA entra como assistente na redacao do guia a partir de uma biblioteca de tarefa
 
 Site estatico, sem servidor e sem login, publicado pelo GitHub Pages.
 
-- `index.html`: lado do cuidador, em tres etapas: escolher um guia pronto ou descrever o pedido (sem guia que combine, aparecem sugestoes antes do rascunho em branco), conferir um passo por tela e mandar pelo WhatsApp. Guia pronto vai como video; guia editado vai por link.
-- `guia.html`: lado da pessoa idosa. Mostra quem mandou, um passo por tela, letra grande, imagem marcada como exemplo, botao para ouvir o passo, voltar e avancar. Com `&video=capa|<n>|fim` no endereco, mostra uma tela parada para o video.
-- `videos/`: um MP4 por guia da biblioteca, com a tela e o audio de cada passo, para mandar pelo WhatsApp sem link. Para gerar de novo: `python3 ferramentas/gerar_video.py --piper <piper> --voz <pt_BR-faber-medium.onnx>`.
+A pessoa idosa nao usa nenhuma interface nova: recebe so um video no WhatsApp, que imita uma gravacao da tela do celular dela, com o toque visivel e a narracao de cada passo. O site e a ferramenta do cuidador para gerar esse video.
+
+- `index.html`: lado do cuidador, em quatro etapas: o que explicar (guia pronto ou pedido em texto livre, com sugestoes quando nada combina), qual e o celular da pessoa (Android ou iPhone, marca e modelo), conferir um passo por tela e o video. Guia pronto ja tem video para mandar; guia editado ou escrito do zero vem com o roteiro e as instrucoes para gravar a tela com os toques visiveis.
+- `video.html` e `ferramentas/quadros.js`: desenham cada quadro do video (celular, legenda, dedo, circulo do toque). `ferramentas/gerar_video.py` junta os quadros com a narracao em `videos/<id>.mp4` e `videos/<id>-iphone.mp4`. Para gerar de novo: `npm install` em `ferramentas/` e `python3 ferramentas/gerar_video.py --piper <piper> --voz <pt_BR-faber-medium.onnx> [--cel iphone]`.
+- `guia.html`: a interface passo a passo da primeira versao do MVP, mantida so para os links ja compartilhados. Saiu do fluxo depois dos testes.
 - `registro.html`: registro de uso dos testes, guardado so no aparelho onde o guia foi aberto.
 - `guias/`: a biblioteca (Isto é golpe?, Pix com segurança, chamada de video, mandar foto, aumentar a letra). `img/`: as ilustracoes de cada passo, com a marcacao do toque.
 - `FORMATO.md`: o formato de um guia e como ele vai no link.

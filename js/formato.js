@@ -37,6 +37,7 @@ var Guias = (function () {
       if (typeof p.imagem === 'string' && /^img\/[a-z0-9-]+\.(svg|png|jpg|webp)$/.test(p.imagem)) {
         limpo.imagem = p.imagem;
         if (p.descricao) limpo.descricao = String(p.descricao).slice(0, 200);
+        if (p.acao === 'olhe' || p.acao === 'toque') limpo.acao = p.acao;
         if (p.marca && ['x', 'y', 'l', 'a'].every(function (k) { return typeof p.marca[k] === 'number'; })) {
           limpo.marca = { x: p.marca.x, y: p.marca.y, l: p.marca.l, a: p.marca.a };
         }
