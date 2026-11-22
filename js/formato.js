@@ -115,8 +115,19 @@ var Guias = (function () {
     return melhor;
   }
 
+  // Todos os guias da biblioteca, do que mais combina com o pedido para o que menos combina.
+  // Usado quando nenhum guia combina o bastante, para sugerir em vez de abrir um rascunho em branco.
+  function parecidos(pedido, lista) {
+    var palavras = semAcento(pedido).split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3; });
+    return lista.map(function (g) {
+      var alvo = semAcento(g.titulo + ' ' + (g.categoria || '') + ' ' + (g.palavras || []).join(' '));
+      var n = palavras.filter(function (w) { return alvo.indexOf(w.slice(0, 5)) >= 0; }).length;
+      return { g: g, n: n };
+    }).sort(function (a, b) { return b.n - a.n; }).map(function (x) { return x.g; });
+  }
+
   return {
-    biblioteca: biblioteca, daBiblioteca: daBiblioteca, valida: valida,
+    biblioteca: biblioteca, daBiblioteca: daBiblioteca, valida: valida, parecidos: parecidos,
     link: link, doLink: doLink, comContato: comContato, combina: combina,
     soDigitos: soDigitos, LIMITE_PASSOS: LIMITE_PASSOS
   };

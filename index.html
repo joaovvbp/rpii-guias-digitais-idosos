@@ -3,72 +3,112 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guias passo a passo para quem você ajuda</title>
-<meta name="description" content="Monte um guia ilustrado e com áudio e mande pelo WhatsApp para a pessoa idosa que você ajuda.">
+<title>Como Faz: guias passo a passo para quem você ajuda</title>
+<meta name="description" content="Escolha ou monte um guia com áudio e mande pelo WhatsApp, em vídeo ou link, para a pessoa idosa que você ajuda.">
 <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
 <main class="pagina">
 
-  <!-- 1. Pedido (#7) -->
+  <!-- Etapa 1: o que explicar (#7, #20) -->
   <section id="etapa-pedido">
     <div class="barra">
-      <h1>Novo guia</h1>
-      <p>Explique uma vez. A pessoa segue no celular, no tempo dela, quantas vezes precisar.</p>
+      <p class="etapa">Etapa 1 de 3</p>
+      <h1>O que você quer explicar?</h1>
     </div>
     <div class="miolo">
-      <label class="rotulo" for="para">Para quem é o guia?</label>
-      <input type="text" id="para" placeholder="Ex.: Mãe, Vô Zé" autocomplete="off" maxlength="40">
-
-      <label class="rotulo" for="pedido">O que você precisa explicar?</label>
-      <textarea id="pedido" placeholder="Ex.: minha mãe recebeu uma mensagem dizendo que a encomenda está retida e quero ensinar a reconhecer golpe"></textarea>
-
-      <p class="rotulo">Ou escolha um guia pronto</p>
+      <p class="rotulo">Guias prontos</p>
       <div class="chips" id="chips"></div>
       <p class="erro escondido" id="erro-biblioteca"></p>
+
+      <label class="rotulo" for="pedido">Ou conte com as suas palavras</label>
+      <textarea id="pedido" placeholder="Ex.: minha mãe recebeu um SMS dizendo que o cartão foi bloqueado"></textarea>
     </div>
     <div class="rodape">
-      <button class="primario" id="montar">Montar guia</button>
+      <button class="primario" id="continuar" disabled>Continuar ▶</button>
     </div>
   </section>
 
-  <!-- 2. Conferência e edição (#9) e envio (#10) -->
-  <section id="etapa-conferir" class="escondido">
+  <!-- Etapa 1b: o pedido não combinou com nenhum guia (#20) -->
+  <section id="etapa-sugestoes" class="escondido">
     <div class="barra">
-      <h1>Conferir antes de enviar</h1>
-      <p id="origem"></p>
+      <p class="etapa">Etapa 1 de 3</p>
+      <h1>Não achei um guia pronto para isso</h1>
     </div>
     <div class="miolo">
-      <p class="aviso escondido" id="aviso-novo">Ainda não temos um guia pronto para esse pedido. Comecei um rascunho em branco: escreva um passo por vez, com frases curtas, do jeito que você explicaria pessoalmente.</p>
+      <p class="dica" id="sugestoes-pedido"></p>
+      <p class="rotulo">Algum destes serve?</p>
+      <div class="lista-guias" id="sugestoes"></div>
+      <p class="rotulo">Se nenhum servir</p>
+      <button class="secundario" id="do-zero">Escrever um guia do zero</button>
+    </div>
+    <div class="rodape">
+      <button class="secundario" id="voltar-pedido">◀ Voltar</button>
+    </div>
+  </section>
 
-      <label class="rotulo" for="titulo">Título do guia</label>
-      <input type="text" id="titulo" maxlength="80">
+  <!-- Etapa 2: conferir um passo por vez (#9, #20) -->
+  <section id="etapa-conferir" class="escondido">
+    <div class="barra">
+      <p class="etapa">Etapa 2 de 3</p>
+      <h1>Confira cada passo</h1>
+      <p id="titulo-conferir"></p>
+    </div>
+    <div class="miolo">
+      <p class="aviso escondido" id="aviso-novo">Escreva um passo por vez, com frases curtas, do jeito que você explicaria pessoalmente.</p>
+      <p class="progresso" id="conf-progresso"></p>
+      <p class="frase pequena-frase" id="conf-frase"></p>
+      <div class="ilustra exemplo escondido" id="conf-ilustra"><img id="conf-imagem" alt=""><div class="marca escondido" id="conf-marca"></div></div>
+      <p class="grande escondido" id="conf-emoji" aria-hidden="true"></p>
 
-      <p class="rotulo">Passos</p>
-      <div id="passos" style="display:flex;flex-direction:column;gap:10px"></div>
-      <button class="secundario" id="mais-passo">+ Acrescentar passo</button>
-      <button class="secundario" id="ouvir-tudo">▶ Ouvir como vai ficar</button>
+      <div class="escondido" id="conf-edicao">
+        <label class="rotulo" for="conf-texto">Frase do passo</label>
+        <textarea id="conf-texto" placeholder="Uma frase curta. Ex.: Toque no desenho da câmera, no alto da tela."></textarea>
+      </div>
+      <div class="acoes-passo">
+        <button class="secundario pequeno" id="conf-ouvir">▶ Ouvir</button>
+        <button class="secundario pequeno" id="conf-editar">✎ Mudar a frase</button>
+        <button class="secundario pequeno escondido" id="conf-mais">+ Passo depois deste</button>
+        <button class="secundario pequeno escondido" id="conf-apagar">Apagar passo</button>
+      </div>
+      <p class="erro escondido" id="erro-passo"></p>
+    </div>
+    <div class="rodape">
+      <div class="navegacao">
+        <button class="secundario" id="conf-voltar">◀</button>
+        <button class="primario" id="conf-proximo">Próximo passo ▶</button>
+      </div>
+    </div>
+  </section>
 
-      <h2>Quem a pessoa chama se travar</h2>
-      <p class="dica">Aparece no botão "Não consegui. Pedir ajuda". Fica só no link, não guardamos em lugar nenhum.</p>
-      <label class="rotulo" for="seu-nome">Seu nome</label>
-      <input type="text" id="seu-nome" placeholder="Ex.: Marina" maxlength="40" autocomplete="given-name">
-      <label class="rotulo" for="seu-tel">Seu WhatsApp, com DDD</label>
-      <input type="tel" id="seu-tel" placeholder="Ex.: 11 91234-5678" autocomplete="tel">
+  <!-- Etapa 3: como mandar (#10, #19, #20) -->
+  <section id="etapa-enviar" class="escondido">
+    <div class="barra">
+      <p class="etapa">Etapa 3 de 3</p>
+      <h1>Mandar pelo WhatsApp</h1>
+      <p id="titulo-enviar"></p>
+    </div>
+    <div class="miolo">
+      <label class="rotulo" for="seu-nome">Seu nome, como a pessoa te chama</label>
+      <input type="text" id="seu-nome" placeholder="Ex.: Marina, Rafa, filho" maxlength="40" autocomplete="given-name">
+      <p class="dica">Aparece no guia para a pessoa saber que foi você que mandou. Não guardamos em lugar nenhum.</p>
 
-      <label style="display:flex;gap:10px;align-items:flex-start;font-size:17px">
-        <input type="checkbox" id="conferi" style="width:26px;height:26px;margin-top:2px">
-        Conferi os passos e eles estão certos para o celular da pessoa.
-      </label>
+      <div id="bloco-video" class="escondido">
+        <video id="previa" controls playsinline preload="metadata"></video>
+        <p class="dica">O vídeo abre dentro do próprio WhatsApp, sem link e sem navegador.</p>
+      </div>
+      <p class="aviso escondido" id="aviso-link">Guias que você mudou ou escreveu vão por link. O vídeo, por enquanto, só existe para os guias prontos.</p>
+      <p class="aviso">Dica: mande junto um áudio seu dizendo que foi você que fez o guia. Quem testou disse que confia mais assim.</p>
       <p class="erro escondido" id="erro-envio"></p>
     </div>
     <div class="rodape">
-      <a class="botao whats" id="enviar" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+      <button class="botao whats escondido" id="enviar-video">Mandar o vídeo pelo WhatsApp</button>
+      <a class="botao secundario escondido" id="baixar-video" download>Baixar o vídeo</a>
+      <a class="botao whats" id="enviar-link" target="_blank" rel="noopener">Mandar o link pelo WhatsApp</a>
       <div class="navegacao" style="grid-template-columns:1fr 1fr">
-        <button class="secundario" id="testar">Testar o guia</button>
-        <button class="secundario" id="copiar">Copiar link</button>
+        <button class="secundario" id="voltar-conferir">◀ Passos</button>
+        <button class="secundario" id="recomecar">Outro guia</button>
       </div>
-      <button class="secundario" id="recomecar">◀ Começar outro guia</button>
     </div>
   </section>
 </main>
@@ -79,16 +119,25 @@
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var EMOJIS = ['', '✋', '👀', '👆', '📱', '💬', '📷', '🖼️', '📞', '🙂', '🔒', '⚠️', '✅', '❌', '🔎', '⚙️', '💰'];
+  var EMOJIS = ['📱', '👆', '👀', '💬', '📷', '📞', '🔒', '⚠️', '✅', '✋'];
   var lista = [], escolhido = null, original = '', guia = null;
+  var atual = 0, vistos = [], editando = false, arquivoVideo = null;
 
-  // Lembra o nome e o telefone do cuidador neste aparelho, por conveniência.
-  try {
-    var salvo = JSON.parse(localStorage.getItem('guias-cuidador') || '{}');
-    $('seu-nome').value = salvo.nome || '';
-    $('seu-tel').value = salvo.tel || '';
-  } catch (e) { /* sem armazenamento */ }
+  function mostra(id) {
+    ['etapa-pedido', 'etapa-sugestoes', 'etapa-conferir', 'etapa-enviar'].forEach(function (s) {
+      $(s).classList.toggle('escondido', s !== id);
+    });
+    Fala.parar();
+    window.scrollTo(0, 0);
+  }
 
+  try { $('seu-nome').value = JSON.parse(localStorage.getItem('guias-cuidador') || '{}').nome || ''; } catch (e) { /* sem armazenamento */ }
+  $('seu-nome').addEventListener('input', function () {
+    try { localStorage.setItem('guias-cuidador', JSON.stringify({ nome: $('seu-nome').value })); } catch (e) { /* nada */ }
+    atualizaEnvio();
+  });
+
+  // ---------- Etapa 1 ----------
   Guias.biblioteca().then(function (l) {
     lista = l;
     l.forEach(function (g) {
@@ -97,7 +146,8 @@
       b.textContent = g.titulo;
       b.addEventListener('click', function () {
         escolhido = escolhido === g ? null : g;
-        document.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('escolhido', c === b && escolhido); });
+        document.querySelectorAll('#chips .chip').forEach(function (c) { c.classList.toggle('escolhido', c === b && !!escolhido); });
+        podeContinuar();
       });
       $('chips').appendChild(b);
     });
@@ -106,185 +156,200 @@
     $('erro-biblioteca').classList.remove('escondido');
   });
 
-  $('montar').addEventListener('click', function () {
+  function podeContinuar() { $('continuar').disabled = !escolhido && !$('pedido').value.trim(); }
+  $('pedido').addEventListener('input', podeContinuar);
+
+  $('continuar').addEventListener('click', function () {
     var alvo = escolhido || Guias.combina($('pedido').value, lista);
-    if (alvo) {
-      Guias.daBiblioteca(alvo.id).then(function (g) {
-        abreConferencia(g, 'Guia pronto da biblioteca. Você pode ajustar as frases.');
-      }).catch(function (e) { alert(e.message); });
-    } else {
-      var t = $('pedido').value.trim();
-      abreConferencia({
-        titulo: t ? t.charAt(0).toUpperCase() + t.slice(1, 60) : 'Meu guia',
-        passos: [{ frase: '', emoji: '📱' }, { frase: '' }, { frase: '', emoji: '✅' }]
-      }, 'Rascunho novo', true);
-    }
+    if (alvo) { abreDaBiblioteca(alvo.id); return; }
+    // Sem combinação: sugere os guias prontos antes de oferecer o rascunho em branco.
+    $('sugestoes-pedido').textContent = 'Você escreveu: "' + $('pedido').value.trim() + '".';
+    $('sugestoes').innerHTML = '';
+    Guias.parecidos($('pedido').value, lista).forEach(function (g) {
+      var b = document.createElement('button');
+      b.className = 'secundario item-guia';
+      b.innerHTML = '<strong></strong><span></span>';
+      b.querySelector('strong').textContent = g.titulo;
+      b.querySelector('span').textContent = g.categoria || '';
+      b.addEventListener('click', function () { abreDaBiblioteca(g.id); });
+      $('sugestoes').appendChild(b);
+    });
+    mostra('etapa-sugestoes');
+  });
+  $('voltar-pedido').addEventListener('click', function () { mostra('etapa-pedido'); });
+  $('do-zero').addEventListener('click', function () {
+    var t = $('pedido').value.trim();
+    abreConferencia({
+      titulo: t ? t.charAt(0).toUpperCase() + t.slice(1, 60) : 'Meu guia',
+      passos: [{ frase: '', emoji: '📱' }, { frase: '' }, { frase: '', emoji: '✅' }]
+    }, true);
   });
 
-  function abreConferencia(g, origem, novo) {
+  function abreDaBiblioteca(id) {
+    Guias.daBiblioteca(id).then(function (g) {
+      abreConferencia(g, false);
+      carregaVideo(g.id);
+    }).catch(function (e) {
+      $('erro-biblioteca').textContent = e.message;
+      $('erro-biblioteca').classList.remove('escondido');
+    });
+  }
+
+  // O vídeo é baixado assim que o guia é escolhido: no celular, o compartilhamento
+  // precisa acontecer logo no toque, sem esperar download (#19).
+  function carregaVideo(id) {
+    arquivoVideo = null;
+    var url = 'videos/' + id + '.mp4';
+    $('previa').src = url;
+    $('baixar-video').href = url;
+    $('baixar-video').setAttribute('download', id + '.mp4');
+    fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('sem vídeo');
+      return r.blob();
+    }).then(function (b) {
+      arquivoVideo = new File([b], guia.titulo.replace(/[^\wÀ-ú ]+/g, '').trim() + '.mp4', { type: 'video/mp4' });
+      atualizaEnvio();
+    }).catch(function () { arquivoVideo = null; atualizaEnvio(); });
+  }
+
+  // ---------- Etapa 2 ----------
+  function abreConferencia(g, novo) {
     guia = JSON.parse(JSON.stringify(g));
     original = novo ? '' : JSON.stringify({ titulo: g.titulo, passos: g.passos });
-    $('origem').textContent = origem;
+    if (novo) { arquivoVideo = null; $('previa').removeAttribute('src'); }
+    atual = 0;
+    vistos = guia.passos.map(function () { return false; });
+    editando = !!novo;
     $('aviso-novo').classList.toggle('escondido', !novo);
-    $('titulo').value = guia.titulo;
-    desenhaPassos();
-    $('etapa-pedido').classList.add('escondido');
-    $('etapa-conferir').classList.remove('escondido');
-    window.scrollTo(0, 0);
+    $('titulo-conferir').textContent = guia.titulo;
+    desenhaPasso();
+    mostra('etapa-conferir');
+  }
+
+  function editado() { return JSON.stringify({ titulo: guia.titulo, passos: guia.passos }) !== original; }
+
+  function desenhaPasso() {
+    var p = guia.passos[atual], n = guia.passos.length;
+    vistos[atual] = true;
+    $('conf-progresso').textContent = 'Passo ' + (atual + 1) + ' de ' + n;
+    $('conf-frase').textContent = Guias.comContato(p.frase, { nome: $('seu-nome').value.trim() || '(seu nome)' }) || '(passo sem frase)';
+    $('conf-ilustra').classList.toggle('escondido', !p.imagem);
+    $('conf-emoji').classList.toggle('escondido', !!p.imagem || !p.emoji);
+    if (p.imagem) {
+      $('conf-imagem').src = p.imagem;
+      $('conf-imagem').alt = p.descricao || '';
+      var m = p.marca;
+      $('conf-marca').classList.toggle('escondido', !m);
+      if (m) { $('conf-marca').style.left = m.x + '%'; $('conf-marca').style.top = m.y + '%'; $('conf-marca').style.width = m.l + '%'; $('conf-marca').style.height = m.a + '%'; }
+    } else if (p.emoji) {
+      $('conf-emoji').textContent = p.emoji;
+    }
+    $('conf-texto').value = p.frase;
+    cresce($('conf-texto'));
+    $('conf-edicao').classList.toggle('escondido', !editando);
+    $('conf-editar').textContent = editando ? '✔ Pronto' : '✎ Mudar a frase';
+    $('conf-mais').classList.toggle('escondido', !editando || n >= Guias.LIMITE_PASSOS);
+    $('conf-apagar').classList.toggle('escondido', !editando || n <= 1);
+    $('conf-voltar').disabled = atual === 0;
+    $('conf-proximo').textContent = atual === n - 1 ? 'Está tudo certo ▶' : 'Próximo passo ▶';
+    $('erro-passo').classList.add('escondido');
+  }
+
+  // A caixa de texto cresce com a frase, para não esconder o fim dela (#20).
+  function cresce(ta) { ta.style.height = 'auto'; ta.style.height = Math.max(ta.scrollHeight + 4, 72) + 'px'; }
+
+  $('conf-texto').addEventListener('input', function () {
+    var p = guia.passos[atual];
+    p.frase = $('conf-texto').value;
+    delete p.fala;  // a fala segue a frase editada
+    delete p.audio; // o áudio gravado era da frase antiga
+    $('conf-frase').textContent = p.frase || '(passo sem frase)';
+    cresce($('conf-texto'));
+  });
+  $('conf-editar').addEventListener('click', function () {
+    editando = !editando;
+    desenhaPasso();
+    if (editando) $('conf-texto').focus();
+  });
+  $('conf-ouvir').addEventListener('click', function () {
+    var p = guia.passos[atual];
+    if (p.frase.trim()) Fala.passo(p, Guias.comContato(p.fala || p.frase, { nome: $('seu-nome').value.trim() }));
+  });
+  $('conf-mais').addEventListener('click', function () {
+    guia.passos.splice(atual + 1, 0, { frase: '' });
+    vistos.splice(atual + 1, 0, false);
+    atual++;
+    desenhaPasso();
+    $('conf-texto').focus();
+  });
+  $('conf-apagar').addEventListener('click', function () {
+    if (guia.passos.length <= 1) return;
+    guia.passos.splice(atual, 1);
+    vistos.splice(atual, 1);
+    if (atual >= guia.passos.length) atual = guia.passos.length - 1;
+    desenhaPasso();
+  });
+  $('conf-voltar').addEventListener('click', function () { if (atual > 0) { atual--; desenhaPasso(); } });
+  $('conf-proximo').addEventListener('click', function () {
+    if (!guia.passos[atual].frase.trim()) {
+      $('erro-passo').textContent = 'Este passo está sem frase. Escreva ou apague.';
+      $('erro-passo').classList.remove('escondido');
+      return;
+    }
+    if (atual < guia.passos.length - 1) { atual++; desenhaPasso(); return; }
+    // Só chega aqui quem passou por todos os passos (#20).
+    var falta = vistos.indexOf(false);
+    if (falta >= 0) { atual = falta; desenhaPasso(); return; }
+    abreEnvio();
+  });
+
+  // ---------- Etapa 3 ----------
+  function abreEnvio() {
+    $('titulo-enviar').textContent = guia.titulo;
     atualizaEnvio();
+    mostra('etapa-enviar');
   }
-
-  function desenhaPassos() {
-    var c = $('passos');
-    c.innerHTML = '';
-    guia.passos.forEach(function (p, i) {
-      var d = document.createElement('div');
-      d.className = 'passo-editavel';
-      var topo = document.createElement('div');
-      topo.className = 'topo';
-      topo.innerHTML = '<span class="num">' + (i + 1) + '</span>';
-      var rot = document.createElement('span');
-      rot.className = 'dica';
-      rot.textContent = p.imagem ? 'com imagem da tela' : 'figura:';
-      topo.appendChild(rot);
-      if (!p.imagem) {
-        var sel = document.createElement('select');
-        sel.className = 'emoji-escolha';
-        sel.setAttribute('aria-label', 'Figura do passo ' + (i + 1));
-        EMOJIS.forEach(function (e) {
-          var o = document.createElement('option');
-          o.value = e; o.textContent = e || '(nenhuma)';
-          if ((p.emoji || '') === e) o.selected = true;
-          sel.appendChild(o);
-        });
-        sel.addEventListener('change', function () { if (sel.value) p.emoji = sel.value; else delete p.emoji; atualizaEnvio(); });
-        topo.appendChild(sel);
-      }
-      d.appendChild(topo);
-
-      var ta = document.createElement('textarea');
-      ta.value = p.frase;
-      ta.placeholder = 'Uma frase curta. Ex.: Toque no desenho da câmera, no alto da tela.';
-      ta.setAttribute('aria-label', 'Frase do passo ' + (i + 1));
-      ta.style.minHeight = '72px';
-      ta.addEventListener('input', function () {
-        p.frase = ta.value;
-        delete p.fala;  // a fala segue a frase editada
-        delete p.audio; // o áudio gravado era da frase antiga
-        atualizaEnvio();
-      });
-      d.appendChild(ta);
-
-      var acoes = document.createElement('div');
-      acoes.className = 'acoes';
-      [['▶ Ouvir', function () { Fala.passo(p, Guias.comContato(p.fala || p.frase, contato())); }],
-       ['↑', function () { if (i > 0) { troca(i, i - 1); } }],
-       ['↓', function () { if (i < guia.passos.length - 1) { troca(i, i + 1); } }],
-       ['Apagar', function () { if (guia.passos.length > 1) { guia.passos.splice(i, 1); desenhaPassos(); atualizaEnvio(); } }]
-      ].forEach(function (a) {
-        var b = document.createElement('button');
-        b.className = 'secundario pequeno';
-        b.textContent = a[0];
-        b.addEventListener('click', a[1]);
-        acoes.appendChild(b);
-      });
-      d.appendChild(acoes);
-      c.appendChild(d);
-    });
-    $('mais-passo').disabled = guia.passos.length >= Guias.LIMITE_PASSOS;
-  }
-
-  function troca(a, b) {
-    var t = guia.passos[a]; guia.passos[a] = guia.passos[b]; guia.passos[b] = t;
-    desenhaPassos(); atualizaEnvio();
-  }
-
-  $('mais-passo').addEventListener('click', function () {
-    guia.passos.push({ frase: '' });
-    desenhaPassos();
-    var tas = $('passos').querySelectorAll('textarea');
-    tas[tas.length - 1].focus();
-    atualizaEnvio();
+  $('voltar-conferir').addEventListener('click', function () { mostra('etapa-conferir'); desenhaPasso(); });
+  $('recomecar').addEventListener('click', function () {
+    escolhido = null; guia = null; arquivoVideo = null;
+    $('pedido').value = '';
+    document.querySelectorAll('#chips .chip').forEach(function (c) { c.classList.remove('escolhido'); });
+    podeContinuar();
+    mostra('etapa-pedido');
   });
-
-  $('ouvir-tudo').addEventListener('click', function () {
-    var c = contato(), i = 0;
-    (function proximo() {
-      if (i >= guia.passos.length) return;
-      var p = guia.passos[i++];
-      if (!p.frase.trim()) { proximo(); return; }
-      var texto = Guias.comContato(p.fala || p.frase, c);
-      if (p.audio) Fala.passo(p, texto, proximo);
-      else Fala.falar('Passo ' + i + '. ' + texto, proximo);
-    })();
-  });
-
-  $('titulo').addEventListener('input', function () { guia.titulo = $('titulo').value; atualizaEnvio(); });
-  ['seu-nome', 'seu-tel'].forEach(function (id) {
-    $(id).addEventListener('input', function () {
-      try { localStorage.setItem('guias-cuidador', JSON.stringify({ nome: $('seu-nome').value, tel: $('seu-tel').value })); } catch (e) { /* nada */ }
-      atualizaEnvio();
-    });
-  });
-  $('conferi').addEventListener('change', atualizaEnvio);
-
-  function contato() {
-    var tel = Guias.soDigitos($('seu-tel').value);
-    if (tel && tel.length <= 11) tel = '55' + tel; // número brasileiro sem o código do país
-    return { nome: $('seu-nome').value.trim(), tel: tel.length >= 12 ? tel : '' };
-  }
-
-  function problema() {
-    if (!guia.titulo.trim()) return 'Dê um título ao guia.';
-    if (guia.passos.some(function (p) { return !p.frase.trim(); })) return 'Tem passo sem frase. Escreva ou apague.';
-    if (!$('conferi').checked) return 'Marque que conferiu os passos para poder enviar.';
-    return '';
-  }
 
   function linkAtual() {
-    var editado = JSON.stringify({ titulo: guia.titulo, passos: guia.passos }) !== original;
-    return Guias.link(Guias.valida(guia), contato(), editado);
+    return Guias.link(Guias.valida(guia), { nome: $('seu-nome').value.trim() }, editado());
   }
 
-  // Nada sai daqui sem a confirmação do cuidador (#9).
   function atualizaEnvio() {
-    var p = problema();
-    $('erro-envio').textContent = p;
-    $('erro-envio').classList.toggle('escondido', !p);
-    var ok = !p;
-    $('enviar').classList.toggle('escondido', false);
-    $('enviar').style.opacity = ok ? '' : '.45';
-    $('enviar').setAttribute('aria-disabled', ok ? 'false' : 'true');
-    if (ok) {
-      var para = $('para').value.trim();
-      var msg = (para ? para + ', fiz' : 'Fiz') + ' um guia pra você: "' + guia.titulo.trim() +
-        '". É só tocar no link e seguir um passo de cada vez. Tem botão para ouvir.\n' + linkAtual();
-      $('enviar').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
-    } else {
-      $('enviar').removeAttribute('href');
-    }
+    if (!guia) return;
+    var temVideo = !editado() && !!guia.id && !!$('previa').getAttribute('src');
+    $('bloco-video').classList.toggle('escondido', !temVideo);
+    $('aviso-link').classList.toggle('escondido', temVideo);
+    var compartilha = temVideo && arquivoVideo && navigator.canShare && navigator.canShare({ files: [arquivoVideo] });
+    $('enviar-video').classList.toggle('escondido', !compartilha);
+    $('baixar-video').classList.toggle('escondido', !temVideo || !!compartilha);
+    var nome = $('seu-nome').value.trim();
+    var msg = (nome ? nome + ' aqui. Fiz' : 'Fiz') + ' um guia pra você: "' + guia.titulo.trim() +
+      '". É só tocar no link e seguir um passo de cada vez. Tem botão para ouvir.\n';
+    try { $('enviar-link').href = 'https://wa.me/?text=' + encodeURIComponent(msg + linkAtual()); } catch (e) { $('enviar-link').removeAttribute('href'); }
+    $('enviar-link').classList.toggle('secundario', temVideo);
+    $('enviar-link').classList.toggle('whats', !temVideo);
   }
-  $('enviar').addEventListener('click', function (e) { if (problema()) { e.preventDefault(); $('erro-envio').scrollIntoView({ block: 'center' }); } });
 
-  $('testar').addEventListener('click', function () {
-    var p = problema();
-    if (p && p.indexOf('Marque') !== 0) { $('erro-envio').scrollIntoView({ block: 'center' }); return; }
-    window.open(linkAtual(), '_blank', 'noopener');
-  });
-  $('copiar').addEventListener('click', function () {
-    var p = problema();
-    if (p) { $('erro-envio').scrollIntoView({ block: 'center' }); return; }
-    var l = linkAtual();
-    (navigator.clipboard ? navigator.clipboard.writeText(l) : Promise.reject()).then(function () {
-      $('copiar').textContent = 'Link copiado ✔';
-      setTimeout(function () { $('copiar').textContent = 'Copiar link'; }, 2000);
-    }).catch(function () { prompt('Copie o link:', l); });
-  });
-  $('recomecar').addEventListener('click', function () {
-    Fala.parar();
-    $('etapa-conferir').classList.add('escondido');
-    $('etapa-pedido').classList.remove('escondido');
-    $('conferi').checked = false;
+  $('enviar-video').addEventListener('click', function () {
+    if (!arquivoVideo) return;
+    var nome = $('seu-nome').value.trim();
+    navigator.share({
+      files: [arquivoVideo],
+      text: (nome ? nome + ' aqui. ' : '') + 'Fiz um vídeo pra você: "' + guia.titulo + '". Assista com calma, pode pausar e voltar.'
+    }).catch(function (e) {
+      if (e && e.name === 'AbortError') return;
+      $('erro-envio').textContent = 'Não consegui abrir o compartilhamento. Baixe o vídeo e anexe na conversa do WhatsApp.';
+      $('erro-envio').classList.remove('escondido');
+      $('baixar-video').classList.remove('escondido');
+    });
   });
 })();
 </script>
