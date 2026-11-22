@@ -25,7 +25,8 @@
     "l": 16,
     "a": 10
    },
-   "audio": "audio/golpe-2.mp3"
+   "audio": "audio/golpe-2.mp3",
+   "acao": "olhe"
   },
   {
    "frase": "Ela pede para tocar num link, pagar uma taxa ou passar a sua senha ou os números que chegaram por SMS? Também é sinal de golpe.",
@@ -37,7 +38,8 @@
     "l": 60,
     "a": 12
    },
-   "audio": "audio/golpe-3.mp3"
+   "audio": "audio/golpe-3.mp3",
+   "acao": "olhe"
   },
   {
    "frase": "Alguém diz que é da família, que trocou de número, e pede dinheiro? Antes de qualquer coisa, ligue para o número antigo da pessoa.",
@@ -49,7 +51,8 @@
     "l": 48,
     "a": 11
    },
-   "audio": "audio/golpe-4.mp3"
+   "audio": "audio/golpe-4.mp3",
+   "acao": "olhe"
   },
   {
    "frase": "Banco, INSS e Correios não pedem por mensagem a sua senha, os números que chegam por SMS nem pagamento.",

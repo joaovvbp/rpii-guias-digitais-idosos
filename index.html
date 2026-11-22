@@ -4,16 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Como Faz: guias passo a passo para quem você ajuda</title>
-<meta name="description" content="Escolha ou monte um guia com áudio e mande pelo WhatsApp, em vídeo ou link, para a pessoa idosa que você ajuda.">
+<meta name="description" content="Faça um vídeo curto, com a tela do celular e narração, para explicar uma tarefa no celular à pessoa idosa que você ajuda, e mande pelo WhatsApp.">
 <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
 <main class="pagina">
+  <div class="em-desenvolvimento" role="note">
+    <strong>Versão intermediária, em desenvolvimento.</strong>
+    Este não é o resultado final: os vídeos ainda usam telas desenhadas, o visual é provisório e a letra ainda não está adequada para pessoas idosas. A versão final vai usar gravações reais da tela do celular.
+  </div>
 
   <!-- Etapa 1: o que explicar (#7, #20) -->
   <section id="etapa-pedido">
     <div class="barra">
-      <p class="etapa">Etapa 1 de 3</p>
+      <p class="etapa">Etapa 1 de 4</p>
       <h1>O que você quer explicar?</h1>
     </div>
     <div class="miolo">
@@ -32,7 +36,7 @@
   <!-- Etapa 1b: o pedido não combinou com nenhum guia (#20) -->
   <section id="etapa-sugestoes" class="escondido">
     <div class="barra">
-      <p class="etapa">Etapa 1 de 3</p>
+      <p class="etapa">Etapa 1 de 4</p>
       <h1>Não achei um guia pronto para isso</h1>
     </div>
     <div class="miolo">
@@ -47,10 +51,32 @@
     </div>
   </section>
 
-  <!-- Etapa 2: conferir um passo por vez (#9, #20) -->
+  <!-- Etapa 2: qual é o celular da pessoa (#23) -->
+  <section id="etapa-celular" class="escondido">
+    <div class="barra">
+      <p class="etapa">Etapa 2 de 4</p>
+      <h1>Qual é o celular da pessoa?</h1>
+    </div>
+    <div class="miolo">
+      <p class="dica">O vídeo mostra a tela de um celular parecido com o dela, para ela reconhecer onde tocar.</p>
+      <div class="opcoes-cel">
+        <button class="cel" data-cel="android"><strong>Android</strong><span>Samsung, Motorola, Xiaomi, LG...</span></button>
+        <button class="cel" data-cel="iphone"><strong>iPhone</strong><span>da Apple</span></button>
+      </div>
+      <label class="rotulo" for="modelo">Marca e modelo, se souber</label>
+      <input type="text" id="modelo" placeholder="Ex.: Samsung Galaxy A12" maxlength="60" autocomplete="off">
+      <p class="dica">Não sabe? Peça para a pessoa mandar uma foto da tela "Sobre o telefone" (Android) ou "Ajustes, Geral, Sobre" (iPhone), ou olhe atrás do aparelho.</p>
+    </div>
+    <div class="rodape">
+      <button class="primario" id="celular-ok" disabled>Continuar ▶</button>
+      <button class="secundario" id="voltar-pedido2">◀ Voltar</button>
+    </div>
+  </section>
+
+  <!-- Etapa 3: conferir um passo por vez (#9, #20) -->
   <section id="etapa-conferir" class="escondido">
     <div class="barra">
-      <p class="etapa">Etapa 2 de 3</p>
+      <p class="etapa">Etapa 3 de 4</p>
       <h1>Confira cada passo</h1>
       <p id="titulo-conferir"></p>
     </div>
@@ -81,30 +107,32 @@
     </div>
   </section>
 
-  <!-- Etapa 3: como mandar (#10, #19, #20) -->
+  <!-- Etapa 4: o vídeo (#19, #23) -->
   <section id="etapa-enviar" class="escondido">
     <div class="barra">
-      <p class="etapa">Etapa 3 de 3</p>
-      <h1>Mandar pelo WhatsApp</h1>
+      <p class="etapa">Etapa 4 de 4</p>
+      <h1>O vídeo para mandar</h1>
       <p id="titulo-enviar"></p>
     </div>
     <div class="miolo">
-      <label class="rotulo" for="seu-nome">Seu nome, como a pessoa te chama</label>
-      <input type="text" id="seu-nome" placeholder="Ex.: Marina, Rafa, filho" maxlength="40" autocomplete="given-name">
-      <p class="dica">Aparece no guia para a pessoa saber que foi você que mandou. Não guardamos em lugar nenhum.</p>
-
       <div id="bloco-video" class="escondido">
         <video id="previa" controls playsinline preload="metadata"></video>
-        <p class="dica">O vídeo abre dentro do próprio WhatsApp, sem link e sem navegador.</p>
+        <p class="dica" id="sobre-video"></p>
       </div>
-      <p class="aviso escondido" id="aviso-link">Guias que você mudou ou escreveu vão por link. O vídeo, por enquanto, só existe para os guias prontos.</p>
-      <p class="aviso">Dica: mande junto um áudio seu dizendo que foi você que fez o guia. Quem testou disse que confia mais assim.</p>
+      <p class="aviso escondido" id="aviso-sem-video">Este guia foi mudado ou escrito por você, então ainda não existe vídeo pronto. Grave você mesmo, seguindo o roteiro abaixo: leva poucos minutos.</p>
+      <p class="aviso">Dica: mande junto um áudio seu dizendo que foi você que fez o vídeo. Quem testou disse que confia mais assim.</p>
       <p class="erro escondido" id="erro-envio"></p>
+
+      <details id="gravar">
+        <summary>Gravar você mesmo, no celular da pessoa ou num igual</summary>
+        <ol class="como-gravar" id="como-gravar"></ol>
+        <p class="rotulo">Roteiro para ler enquanto grava</p>
+        <ol class="roteiro" id="roteiro"></ol>
+      </details>
     </div>
     <div class="rodape">
       <button class="botao whats escondido" id="enviar-video">Mandar o vídeo pelo WhatsApp</button>
       <a class="botao secundario escondido" id="baixar-video" download>Baixar o vídeo</a>
-      <a class="botao whats" id="enviar-link" target="_blank" rel="noopener">Mandar o link pelo WhatsApp</a>
       <div class="navegacao" style="grid-template-columns:1fr 1fr">
         <button class="secundario" id="voltar-conferir">◀ Passos</button>
         <button class="secundario" id="recomecar">Outro guia</button>
@@ -121,21 +149,15 @@
   var $ = function (id) { return document.getElementById(id); };
   var EMOJIS = ['📱', '👆', '👀', '💬', '📷', '📞', '🔒', '⚠️', '✅', '✋'];
   var lista = [], escolhido = null, original = '', guia = null;
-  var atual = 0, vistos = [], editando = false, arquivoVideo = null;
+  var atual = 0, vistos = [], editando = false, arquivoVideo = null, cel = '', pendente = null;
 
   function mostra(id) {
-    ['etapa-pedido', 'etapa-sugestoes', 'etapa-conferir', 'etapa-enviar'].forEach(function (s) {
+    ['etapa-pedido', 'etapa-sugestoes', 'etapa-celular', 'etapa-conferir', 'etapa-enviar'].forEach(function (s) {
       $(s).classList.toggle('escondido', s !== id);
     });
     Fala.parar();
     window.scrollTo(0, 0);
   }
-
-  try { $('seu-nome').value = JSON.parse(localStorage.getItem('guias-cuidador') || '{}').nome || ''; } catch (e) { /* sem armazenamento */ }
-  $('seu-nome').addEventListener('input', function () {
-    try { localStorage.setItem('guias-cuidador', JSON.stringify({ nome: $('seu-nome').value })); } catch (e) { /* nada */ }
-    atualizaEnvio();
-  });
 
   // ---------- Etapa 1 ----------
   Guias.biblioteca().then(function (l) {
@@ -179,16 +201,33 @@
   $('voltar-pedido').addEventListener('click', function () { mostra('etapa-pedido'); });
   $('do-zero').addEventListener('click', function () {
     var t = $('pedido').value.trim();
-    abreConferencia({
+    pendente = function () { abreConferencia({
       titulo: t ? t.charAt(0).toUpperCase() + t.slice(1, 60) : 'Meu guia',
       passos: [{ frase: '', emoji: '📱' }, { frase: '' }, { frase: '', emoji: '✅' }]
-    }, true);
+    }, true); };
+    mostra('etapa-celular');
   });
+
+  // ---------- Etapa 2: o celular da pessoa ----------
+  try { var s0 = JSON.parse(localStorage.getItem('guias-cuidador') || '{}'); cel = s0.cel || ''; $('modelo').value = s0.modelo || ''; } catch (e) { /* nada */ }
+  function marcaCel() {
+    document.querySelectorAll('.cel').forEach(function (b) { b.classList.toggle('escolhido', b.getAttribute('data-cel') === cel); });
+    $('celular-ok').disabled = !cel;
+  }
+  document.querySelectorAll('.cel').forEach(function (b) {
+    b.addEventListener('click', function () { cel = b.getAttribute('data-cel'); marcaCel(); });
+  });
+  marcaCel();
+  $('celular-ok').addEventListener('click', function () {
+    try { localStorage.setItem('guias-cuidador', JSON.stringify({ cel: cel, modelo: $('modelo').value.trim() })); } catch (e) { /* nada */ }
+    if (pendente) pendente();
+  });
+  $('voltar-pedido2').addEventListener('click', function () { mostra('etapa-pedido'); });
 
   function abreDaBiblioteca(id) {
     Guias.daBiblioteca(id).then(function (g) {
-      abreConferencia(g, false);
-      carregaVideo(g.id);
+      pendente = function () { abreConferencia(g, false); carregaVideo(g.id); };
+      mostra('etapa-celular');
     }).catch(function (e) {
       $('erro-biblioteca').textContent = e.message;
       $('erro-biblioteca').classList.remove('escondido');
@@ -199,7 +238,7 @@
   // precisa acontecer logo no toque, sem esperar download (#19).
   function carregaVideo(id) {
     arquivoVideo = null;
-    var url = 'videos/' + id + '.mp4';
+    var url = 'videos/' + id + (cel === 'iphone' ? '-iphone' : '') + '.mp4';
     $('previa').src = url;
     $('baixar-video').href = url;
     $('baixar-video').setAttribute('download', id + '.mp4');
@@ -232,7 +271,7 @@
     var p = guia.passos[atual], n = guia.passos.length;
     vistos[atual] = true;
     $('conf-progresso').textContent = 'Passo ' + (atual + 1) + ' de ' + n;
-    $('conf-frase').textContent = Guias.comContato(p.frase, { nome: $('seu-nome').value.trim() || '(seu nome)' }) || '(passo sem frase)';
+    $('conf-frase').textContent = Guias.comContato(p.frase, { nome: 'você' }) || '(passo sem frase)';
     $('conf-ilustra').classList.toggle('escondido', !p.imagem);
     $('conf-emoji').classList.toggle('escondido', !!p.imagem || !p.emoji);
     if (p.imagem) {
@@ -273,7 +312,7 @@
   });
   $('conf-ouvir').addEventListener('click', function () {
     var p = guia.passos[atual];
-    if (p.frase.trim()) Fala.passo(p, Guias.comContato(p.fala || p.frase, { nome: $('seu-nome').value.trim() }));
+    if (p.frase.trim()) Fala.passo(p, Guias.comContato(p.fala || p.frase, { nome: 'a pessoa que te mandou este guia' }));
   });
   $('conf-mais').addEventListener('click', function () {
     guia.passos.splice(atual + 1, 0, { frase: '' });
@@ -318,32 +357,46 @@
     mostra('etapa-pedido');
   });
 
-  function linkAtual() {
-    return Guias.link(Guias.valida(guia), { nome: $('seu-nome').value.trim() }, editado());
-  }
+  var COMO_GRAVAR = {
+    android: [
+      'Ligue o "Mostrar toques": em Configurações, Sobre o telefone, toque 7 vezes em "Número da versão". Depois, em Opções do desenvolvedor, ligue "Mostrar toques".',
+      'Puxe a barra do alto da tela e toque em "Gravar tela". Escolha gravar com o som do microfone.',
+      'Faça a tarefa devagar, lendo cada passo do roteiro em voz alta antes de tocar.',
+      'Pare a gravação. O vídeo fica na Galeria: mande na conversa da pessoa.'
+    ],
+    iphone: [
+      'Ligue o círculo de toque: em Ajustes, Acessibilidade, Toque, ligue "AssistiveTouch".',
+      'Em Ajustes, Central de Controle, adicione "Gravação de Tela". Abra a Central, segure o botão de gravar e ligue o microfone.',
+      'Faça a tarefa devagar, lendo cada passo do roteiro em voz alta antes de tocar.',
+      'Pare a gravação. O vídeo fica em Fotos: mande na conversa da pessoa.'
+    ]
+  };
 
   function atualizaEnvio() {
     if (!guia) return;
     var temVideo = !editado() && !!guia.id && !!$('previa').getAttribute('src');
     $('bloco-video').classList.toggle('escondido', !temVideo);
-    $('aviso-link').classList.toggle('escondido', temVideo);
+    $('aviso-sem-video').classList.toggle('escondido', temVideo);
+    var modelo = $('modelo').value.trim(), sistema = cel === 'iphone' ? 'iPhone' : 'Android';
+    $('sobre-video').textContent = 'Tela de um ' + sistema + ' com o toque marcado e a narração de cada passo. O vídeo abre dentro do próprio WhatsApp.' +
+      (modelo ? ' Ainda não temos a gravação do ' + modelo + ': se a tela dela for muito diferente, grave você mesmo.' : '');
     var compartilha = temVideo && arquivoVideo && navigator.canShare && navigator.canShare({ files: [arquivoVideo] });
     $('enviar-video').classList.toggle('escondido', !compartilha);
     $('baixar-video').classList.toggle('escondido', !temVideo || !!compartilha);
-    var nome = $('seu-nome').value.trim();
-    var msg = (nome ? nome + ' aqui. Fiz' : 'Fiz') + ' um guia pra você: "' + guia.titulo.trim() +
-      '". É só tocar no link e seguir um passo de cada vez. Tem botão para ouvir.\n';
-    try { $('enviar-link').href = 'https://wa.me/?text=' + encodeURIComponent(msg + linkAtual()); } catch (e) { $('enviar-link').removeAttribute('href'); }
-    $('enviar-link').classList.toggle('secundario', temVideo);
-    $('enviar-link').classList.toggle('whats', !temVideo);
+    $('gravar').open = !temVideo;
+    var lista = function (id, itens) {
+      $(id).innerHTML = '';
+      itens.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; $(id).appendChild(li); });
+    };
+    lista('como-gravar', COMO_GRAVAR[cel === 'iphone' ? 'iphone' : 'android']);
+    lista('roteiro', guia.passos.map(function (p) { return Guias.comContato(p.frase, { nome: 'eu' }); }));
   }
 
   $('enviar-video').addEventListener('click', function () {
     if (!arquivoVideo) return;
-    var nome = $('seu-nome').value.trim();
     navigator.share({
       files: [arquivoVideo],
-      text: (nome ? nome + ' aqui. ' : '') + 'Fiz um vídeo pra você: "' + guia.titulo + '". Assista com calma, pode pausar e voltar.'
+      text: 'Fiz um vídeo pra você: "' + guia.titulo + '". Assista com calma, pode pausar e voltar.'
     }).catch(function (e) {
       if (e && e.name === 'AbortError') return;
       $('erro-envio').textContent = 'Não consegui abrir o compartilhamento. Baixe o vídeo e anexe na conversa do WhatsApp.';

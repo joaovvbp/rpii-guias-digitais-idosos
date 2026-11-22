@@ -38,7 +38,8 @@
     "l": 56,
     "a": 20
    },
-   "audio": "audio/pix-5.mp3"
+   "audio": "audio/pix-5.mp3",
+   "acao": "olhe"
   },
   {
    "frase": "Confira o valor mais uma vez. Só então toque em Confirmar e digite a sua senha. Nunca passe a senha para ninguém.",
@@ -50,7 +51,8 @@
     "l": 40,
     "a": 13
    },
-   "audio": "audio/pix-6.mp3"
+   "audio": "audio/pix-6.mp3",
+   "acao": "olhe"
   }
  ]
 }

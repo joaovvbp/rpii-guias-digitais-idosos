@@ -1,0 +1,6 @@
+{
+  "name": "como-faz-ferramentas",
+  "private": true,
+  "description": "Ferramentas para gerar os vídeos dos guias (quadros.js usa o Chrome instalado).",
+  "dependencies": { "puppeteer-core": "^23.0.0" }
+}

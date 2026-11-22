@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Quadro do vídeo</title>
+<!--
+  Página interna, usada só por ferramentas/gerar_video.py para desenhar cada quadro do vídeo.
+  Endereço: video.html#g=<id>&tela=capa|<n>|fim&t=<0 a 1>&cel=android|iphone
+  t é o tempo da animação do toque dentro do passo: o dedo entra (0 a 0,55),
+  toca (0,55 a 0,7) e a marca fica na tela (até 1).
+-->
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 720px; height: 1280px; overflow: hidden; }
+  body { font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #1d2733; color: #fff; }
+  .legenda { position: absolute; left: 0; right: 0; top: 0; height: 300px; padding: 34px 44px 0; }
+  .legenda .num { font-size: 28px; font-weight: 700; color: #9cc3ff; letter-spacing: .03em; }
+  .legenda .frase { font-size: 40px; line-height: 1.22; font-weight: 700; margin-top: 10px; }
+  .celular { position: absolute; left: 140px; top: 320px; width: 440px; height: 900px; border-radius: 58px; background: #0b0b0b; padding: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+  .tela { position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: #ece5dd; }
+  .status { height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; font-size: 17px; font-weight: 600; color: #fff; background: #0d6b4f; }
+  .iphone .status { padding-top: 6px; }
+  .iphone .status::after { content: ""; position: absolute; left: 50%; top: 8px; width: 110px; height: 28px; margin-left: -55px; border-radius: 16px; background: #0b0b0b; }
+  .android .status::after { content: ""; position: absolute; left: 50%; top: 12px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #0b0b0b; }
+  .conteudo { position: relative; }
+  .conteudo img { display: block; width: 100%; height: auto; }
+  .resto { position: absolute; left: 0; right: 0; bottom: 0; }
+  .marca { position: absolute; border: 5px solid #e53935; border-radius: 14px; box-shadow: 0 0 0 3px rgba(255,255,255,.9); }
+  .onda { position: absolute; border-radius: 50%; background: rgba(255,255,255,.55); border: 4px solid rgba(255,255,255,.95); }
+  .dedo { position: absolute; width: 96px; height: 96px; margin: -10px 0 0 -38px; font-size: 92px; line-height: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.45)); }
+  .emoji { position: absolute; left: 0; right: 0; top: 46%; text-align: center; font-size: 150px; }
+  .apagada { opacity: .35; }
+  .capa, .fim { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 70px; gap: 28px; }
+  .capa .tipo, .fim .tipo { font-size: 30px; font-weight: 700; color: #9cc3ff; }
+  .capa h1, .fim h1 { font-size: 64px; line-height: 1.1; margin: 0; }
+  .capa p, .fim p { font-size: 34px; line-height: 1.3; margin: 0; color: #dfe7f1; }
+  .capa .grande, .fim .grande { font-size: 130px; }
+  .escondido { display: none !important; }
+</style>
+</head>
+<body>
+<div class="capa escondido" id="capa">
+  <div class="grande">📱</div>
+  <div class="tipo">Como Faz</div>
+  <h1 id="capa-titulo"></h1>
+  <p id="capa-texto"></p>
+</div>
+<div class="fim escondido" id="fim">
+  <div class="grande">✅</div>
+  <h1>Pronto!</h1>
+  <p>Pode ver de novo quantas vezes quiser. Se ficou alguma dúvida, responda aqui mesmo nesta conversa.</p>
+</div>
+<div class="escondido" id="passo">
+  <div class="legenda"><div class="num" id="num"></div><div class="frase" id="frase"></div></div>
+  <div class="celular" id="celular">
+    <div class="tela" id="tela">
+      <div class="status"><span>10:42</span><span>📶 🔋</span></div>
+      <div class="conteudo" id="conteudo"><img id="img" alt=""><div class="marca escondido" id="marca"></div><div class="onda escondido" id="onda"></div><div class="dedo escondido" id="dedo">👆</div></div>
+      <div class="emoji escondido" id="emoji"></div>
+    </div>
+  </div>
+</div>
+<script src="js/formato.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var q = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var tela = q.get('tela') || 'capa', t = Math.min(Math.max(parseFloat(q.get('t') || '1'), 0), 1);
+  document.body.classList.add(q.get('cel') === 'iphone' ? 'iphone' : 'android');
+  var suave = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x); };
+
+  function imagemDoPasso(passos, i) {
+    // Passo sem imagem mostra a tela mais próxima, apagada, com o emoji por cima.
+    if (passos[i].imagem) return { src: passos[i].imagem, propria: true };
+    for (var d = 1; d < passos.length; d++) {
+      if (passos[i - d] && passos[i - d].imagem) return { src: passos[i - d].imagem };
+      if (passos[i + d] && passos[i + d].imagem) return { src: passos[i + d].imagem };
+    }
+    return null;
+  }
+
+  Guias.daBiblioteca(q.get('g')).then(function (g) {
+    var n = g.passos.length;
+    if (tela === 'capa') {
+      $('capa-titulo').textContent = g.titulo;
+      $('capa-texto').textContent = n + ' passos. Assista com calma, pode pausar e voltar.';
+      $('capa').classList.remove('escondido');
+    } else if (tela === 'fim') {
+      $('fim').classList.remove('escondido');
+    } else {
+      var i = Math.min(Math.max(parseInt(tela, 10) || 1, 1), n) - 1, p = g.passos[i];
+      $('num').textContent = 'Passo ' + (i + 1) + ' de ' + n;
+      $('frase').textContent = Guias.comContato(p.frase, { nome: 'quem te mandou este vídeo' });
+      var im = imagemDoPasso(g.passos, i);
+      if (im) $('img').src = im.src; else $('conteudo').classList.add('escondido');
+      if (!im || !im.propria) {
+        $('conteudo').classList.add('apagada');
+        if (p.emoji) { $('emoji').textContent = p.emoji; $('emoji').classList.remove('escondido'); }
+      }
+      $('img').onload = function () { fundo(); desenhaToque(p); pronto(); };
+      $('img').onerror = pronto;
+      if (!im) pronto();
+      $('passo').classList.remove('escondido');
+      return;
+    }
+    pronto();
+  }).catch(function (e) { document.body.textContent = e.message; pronto(); });
+
+  function desenhaToque(p) {
+    var m = p.marca;
+    if (!m || !p.imagem) return;
+    var w = $('img').clientWidth, h = $('img').clientHeight;
+    var cx = (m.x + m.l / 2) / 100 * w, cy = (m.y + m.a / 2) / 100 * h;
+    var olhar = p.acao === 'olhe';
+    // A marca aparece no toque (ou aos poucos, quando o passo é só para olhar).
+    var tm = olhar ? suave((t - 0.2) / 0.4) : suave((t - 0.6) / 0.1);
+    if (tm > 0) {
+      var mk = $('marca');
+      mk.style.left = m.x / 100 * w + 'px'; mk.style.top = m.y / 100 * h + 'px';
+      mk.style.width = m.l / 100 * w + 'px'; mk.style.height = m.a / 100 * h + 'px';
+      mk.style.opacity = tm;
+      mk.classList.remove('escondido');
+    }
+    if (olhar) return;
+    // O dedo entra de baixo para cima até o ponto do toque e sai depois.
+    var ida = suave(t / 0.55), volta = suave((t - 0.72) / 0.22);
+    var x0 = w * 0.85, y0 = h + 260;
+    var dx = x0 + (cx - x0) * ida + 120 * volta, dy = y0 + (cy - y0) * ida + 900 * volta;
+    var dedo = $('dedo');
+    dedo.style.left = dx + 'px'; dedo.style.top = dy + 'px';
+    dedo.style.transform = 'scale(' + (t > 0.55 && t < 0.7 ? 0.9 : 1) + ')';
+    dedo.classList.remove('escondido');
+    // Círculo do toque, como o "mostrar toques" do celular.
+    var to = (t - 0.55) / 0.3;
+    if (to > 0 && to < 1) {
+      var r = 26 + 40 * to, onda = $('onda');
+      onda.style.left = cx - r + 'px'; onda.style.top = cy - r + 'px';
+      onda.style.width = onda.style.height = 2 * r + 'px';
+      onda.style.opacity = 1 - to;
+      onda.classList.remove('escondido');
+    }
+  }
+
+  // O resto da tela abaixo da imagem fica com a cor da parte de baixo da imagem.
+  function fundo() {
+    try {
+      var c = document.createElement('canvas'), im = $('img');
+      c.width = im.naturalWidth || 400; c.height = im.naturalHeight || 300;
+      var x = c.getContext('2d'); x.drawImage(im, 0, 0, c.width, c.height);
+      var d = x.getImageData(2, c.height - 3, 1, 1).data;
+      $('tela').style.background = 'rgb(' + d[0] + ',' + d[1] + ',' + d[2] + ')';
+    } catch (e) { /* mantém o bege */ }
+  }
+
+  function pronto() { document.body.setAttribute('data-pronto', '1'); }
+})();
+</script>
+</body>
+</html>

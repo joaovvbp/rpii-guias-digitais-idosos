@@ -165,6 +165,19 @@ video { width: 100%; max-height: 50vh; border-radius: 12px; background: #000; }
 .ilustra .selo { position: absolute; top: 5px; left: 10px; font-size: 14px; font-weight: 700; color: var(--cinza); text-transform: uppercase; letter-spacing: .04em; }
 .barra .de-quem { margin: 0 0 4px; font-size: 16px; font-weight: 600; opacity: .95; }
 
+/* etapa do celular e gravação (#23) */
+.opcoes-cel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cel { background: var(--azul-claro); color: var(--azul); display: flex; flex-direction: column; gap: 4px; }
+.cel span { font-size: 14px; font-weight: 400; }
+.cel.escolhido { background: var(--azul); color: #fff; }
+details { border: 2px solid var(--borda); border-radius: 12px; padding: 12px 14px; }
+details summary { font-weight: 700; font-size: 17px; cursor: pointer; }
+.como-gravar, .roteiro { padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
+.roteiro { font-size: 19px; font-weight: 700; }
+
+/* aviso de versão intermediária */
+.em-desenvolvimento { background: #fff4d6; border-bottom: 2px solid #e0a800; color: #4a3b00; font-size: 14px; padding: 10px 16px; line-height: 1.35; }
+
 /* Modo vídeo: telas paradas para o vídeo do guia, sem nada para tocar. */
 .modo-video .rodape, .modo-video #ouvir { display: none !important; }
 .modo-video .frase { font-size: 30px; }
